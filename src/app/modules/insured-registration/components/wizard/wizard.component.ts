@@ -1,14 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  differenceInCalendarDays,
-  differenceInYears,
-  isWithinInterval,
-} from 'date-fns';
+import { isWithinInterval } from 'date-fns';
 import { PhoneValidators } from 'ngx-phone-validators';
 import { EmailValidators, UniversalValidators } from 'ngx-validators';
 import { Observable, of, Subscription } from 'rxjs';
-import { legalAgeDate, oldAgeDate } from 'src/app/utils/age-date.util';
+import { legalAgeDate, oldAgeDate } from 'src/app/utils';
 import {
   PersonalInformation,
   VehicleBrand,

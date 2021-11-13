@@ -66,7 +66,8 @@
 
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="birthDate"
-          >Fecha de Nacimiento</nz-form-label
+        nzTooltipTitle="Recordá que tenés que ser mayor de edad"
+          >Fec. de Nac.</nz-form-label
         >
         <nz-form-control
           nzHasFeedback
@@ -113,6 +114,25 @@
             nz-input
             formControlName="cellphoneNumber"
             id="cellphoneNumber"
+            type="tel"
+          />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber"
+          >Teléfono</nz-form-label
+        >
+        <nz-form-control
+          nzHasFeedback
+          [nzSm]="14"
+          [nzXs]="24"
+          [nzErrorTip]="errorTpl"
+        >
+          <input
+            nz-input
+            formControlName="phoneNumber"
+            id="phoneNumber"
             type="tel"
           />
         </nz-form-control>

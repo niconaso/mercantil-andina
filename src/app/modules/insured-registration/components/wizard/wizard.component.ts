@@ -1,9 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  differenceInCalendarDays,
+  differenceInYears,
+  isWithinInterval,
+} from 'date-fns';
 import { PhoneValidators } from 'ngx-phone-validators';
 import { EmailValidators, UniversalValidators } from 'ngx-validators';
-import { PersonalInformation, VehicleInformation } from '../../models';
+import { Observable, of, Subscription } from 'rxjs';
+import { legalAgeDate, oldAgeDate } from 'src/app/utils/age-date.util';
+import {
+  PersonalInformation,
+  VehicleBrand,
+  VehicleInformation,
+  VehicleModel,
+  VehicleYear,
+} from '../../models';
 import { InsuredRegistration } from '../../models/insured-registration.interface';
+import { VechicleService } from '../../services';
 import { UsernameValidatorService } from '../../validators';
 
 @Component({
@@ -11,12 +25,63 @@ import { UsernameValidatorService } from '../../validators';
   templateUrl: './wizard.component.html',
   styleUrls: ['./wizard.component.scss'],
 })
-export class WizardComponent implements OnInit {
+export class WizardComponent implements OnInit, OnDestroy {
+  today = new Date();
+
+  /**
+   * Current wizard step
+   *
+   * @type {number}
+   * @memberof WizardComponent
+   */
   currentStep: number = 0;
 
   personalDataForm!: FormGroup;
   vehicleDataForm!: FormGroup;
 
+  /**
+   * Brand list to select
+   *
+   * @type {Observable<VehicleBrand[]>}
+   * @memberof WizardComponent
+   */
+  vechicleBrands$!: Observable<VehicleBrand[]>;
+
+  /**
+   * Model list based on the selected brand and year
+   *
+   * @type {Observable<VehicleModel[]>}
+   * @memberof WizardComponent
+   */
+  vechicleModels$!: Observable<VehicleModel[]>;
+
+  /**
+   * List of available years
+   *
+   * @type {Observable<VehicleYear[]>}
+   * @memberof WizardComponent
+   */
+  vehicleYears$!: Observable<VehicleYear[]>;
+
+  private readonly NAME_MINLENGTH: number = 2;
+  private readonly NAME_MAXLENGTH: number = 15;
+  private readonly ID_NUMBER_MINLENGTH = 7;
+  private readonly ID_NUMBER_MAXLENGTH = 8;
+  private readonly USERNAME_MINLENGTH = 3;
+  private readonly USERNAME_MAXLENGTH = 30;
+
+  private readonly OLD_AGE_DATE: Date = oldAgeDate();
+  private readonly LEGAL_AGE_DATE: Date = legalAgeDate();
+
+  private subscription: Subscription = new Subscription();
+
+  /**
+   * Collected data from the user and vehicle
+   *
+   * @private
+   * @type {InsuredRegistration}
+   * @memberof WizardComponent
+   */
   private insuredRegistration!: InsuredRegistration;
 
   /**
@@ -26,12 +91,33 @@ export class WizardComponent implements OnInit {
    */
   constructor(
     private readonly fb: FormBuilder,
-    private usernameValidatorService: UsernameValidatorService
+    private usernameValidatorService: UsernameValidatorService,
+    private vehicleService: VechicleService
   ) {}
 
   ngOnInit(): void {
     this.setFormValidations();
+
+    this.loadData();
   }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  /**
+   * The birthdate must be between 18 and 99 years old
+   *
+   * @param {Date} current
+   * @memberof WizardComponent
+   */
+  disabledDate = (current: Date) => {
+    // Can not select days before today and today
+    return !isWithinInterval(current, {
+      start: this.OLD_AGE_DATE,
+      end: this.LEGAL_AGE_DATE,
+    });
+  };
 
   submitPersonalData(form: FormGroup) {
     if (form.valid) {
@@ -70,6 +156,36 @@ export class WizardComponent implements OnInit {
     this.setVehicleDataValidations();
   }
 
+  /**
+   * Load dynamic data
+   *
+   * @private
+   * @memberof WizardComponent
+   */
+  private loadData() {
+    this.vechicleBrands$ = this.vehicleService.getAllBrands();
+    this.vehicleYears$ = this.vehicleService.getYears();
+  }
+
+  /**
+   * Load vehicle models based on the selected brand and year
+   *
+   * @private
+   * @memberof WizardComponent
+   */
+  private loadModels() {
+    const brandCode: number = this.vehicleDataForm.get('brand')?.value;
+    const year: number = this.vehicleDataForm.get('year')?.value;
+
+    if (brandCode && year) {
+      this.vechicleModels$ = this.vehicleService.getModels(brandCode, year);
+    } else {
+      // If brandCode or Year is null then reset the selected model
+      this.vechicleModels$ = of([]);
+      this.vehicleDataForm.get('model')?.reset();
+    }
+  }
+
   private setPersonalDataValidations() {
     this.personalDataForm = this.fb.group({
       idNumber: [
@@ -77,8 +193,8 @@ export class WizardComponent implements OnInit {
         [
           Validators.required,
           UniversalValidators.isNumber,
-          Validators.minLength(7),
-          Validators.maxLength(8),
+          Validators.minLength(this.ID_NUMBER_MINLENGTH),
+          Validators.maxLength(this.ID_NUMBER_MAXLENGTH),
         ],
       ],
       name: [
@@ -86,8 +202,8 @@ export class WizardComponent implements OnInit {
         [
           Validators.required,
           Validators.pattern('[A-Za-z]+'),
-          Validators.minLength(2),
-          Validators.maxLength(15),
+          Validators.minLength(this.NAME_MINLENGTH),
+          Validators.maxLength(this.NAME_MAXLENGTH),
           UniversalValidators.noEmptyString,
         ],
       ],
@@ -96,11 +212,12 @@ export class WizardComponent implements OnInit {
         [
           Validators.required,
           Validators.pattern('[A-Za-z]+'),
-          Validators.minLength(2),
-          Validators.maxLength(15),
+          Validators.minLength(this.NAME_MINLENGTH),
+          Validators.maxLength(this.NAME_MAXLENGTH),
           UniversalValidators.noEmptyString,
         ],
       ],
+      birthDate: [this.LEGAL_AGE_DATE, []],
       email: [null, [EmailValidators.simple]],
       cellphoneNumber: [null, [PhoneValidators.isPhoneNumber('AR')]],
       phoneNumber: [null, [PhoneValidators.isPhoneNumber('AR')]],
@@ -108,10 +225,10 @@ export class WizardComponent implements OnInit {
         null,
         [
           Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(30),
+          Validators.minLength(this.USERNAME_MINLENGTH),
+          Validators.maxLength(this.USERNAME_MAXLENGTH),
         ],
-        [this.usernameValidatorService.usernameValidator()]
+        [this.usernameValidatorService.usernameValidator()],
       ],
       password: [null, [Validators.required]],
     });
@@ -124,6 +241,17 @@ export class WizardComponent implements OnInit {
       model: [null, [Validators.required]],
       version: [null],
     });
+
+    this.subscription.add(
+      this.vehicleDataForm
+        .get('brand')
+        ?.valueChanges.subscribe(() => this.loadModels())
+    );
+    this.subscription.add(
+      this.vehicleDataForm
+        .get('year')
+        ?.valueChanges.subscribe(() => this.loadModels())
+    );
   }
 
   private showFormErrors(form: FormGroup) {

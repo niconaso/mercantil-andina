@@ -57,6 +57,14 @@ export interface PersonalInformation {
   address: Address;
 
   /**
+   * User must be between 18 and 99 years old
+   *
+   * @type {Date}
+   * @memberof PersonalInformation
+   */
+  birthDate: Date;
+
+  /**
    * Username choosed must be available
    *
    * @type {string}

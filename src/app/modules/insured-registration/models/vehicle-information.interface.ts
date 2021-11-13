@@ -1,6 +1,15 @@
 export interface VehicleInformation {
-  brand: string;
+  /**
+   * Brand code of the vehicle
+   *
+   * @type {number}
+   * @memberof VehicleInformation
+   */
+  brand: number;
+
   year: number;
+
   model: string;
+
   version?: string;
 }

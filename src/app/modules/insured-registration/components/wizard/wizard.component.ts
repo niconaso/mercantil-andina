@@ -4,6 +4,7 @@ import { PhoneValidators } from 'ngx-phone-validators';
 import { EmailValidators, UniversalValidators } from 'ngx-validators';
 import { PersonalInformation, VehicleInformation } from '../../models';
 import { InsuredRegistration } from '../../models/insured-registration.interface';
+import { UsernameValidatorService } from '../../validators';
 
 @Component({
   selector: 'app-wizard',
@@ -18,15 +19,54 @@ export class WizardComponent implements OnInit {
 
   private insuredRegistration!: InsuredRegistration;
 
-  constructor(private readonly fb: FormBuilder) {}
+  /**
+   * Creates an instance of WizardComponent.
+   * @param {FormBuilder} fb
+   * @memberof WizardComponent
+   */
+  constructor(
+    private readonly fb: FormBuilder,
+    private usernameValidatorService: UsernameValidatorService
+  ) {}
 
   ngOnInit(): void {
     this.setFormValidations();
   }
 
-  setFormValidations() {
-    this.setPersonalDataValidations();
+  submitPersonalData(form: FormGroup) {
+    if (form.valid) {
+      const personalInformation = form.value as PersonalInformation;
 
+      this.insuredRegistration = {
+        ...this.insuredRegistration,
+        personalInformation,
+      };
+
+      console.log(this.insuredRegistration);
+
+      this.currentStep++;
+    } else {
+      this.showFormErrors(form);
+    }
+  }
+
+  submitVehicleData(form: FormGroup) {
+    if (form.valid) {
+      const vehicleInformation = form.value as VehicleInformation;
+
+      this.insuredRegistration = {
+        ...this.insuredRegistration,
+        vehicleInformation,
+      };
+
+      console.log(this.insuredRegistration);
+    } else {
+      this.showFormErrors(form);
+    }
+  }
+
+  private setFormValidations() {
+    this.setPersonalDataValidations();
     this.setVehicleDataValidations();
   }
 
@@ -71,6 +111,7 @@ export class WizardComponent implements OnInit {
           Validators.minLength(3),
           Validators.maxLength(30),
         ],
+        [this.usernameValidatorService.usernameValidator()]
       ],
       password: [null, [Validators.required]],
     });
@@ -85,23 +126,6 @@ export class WizardComponent implements OnInit {
     });
   }
 
-  submitPersonalData(form: FormGroup) {
-    if (form.valid) {
-      const personalInformation = form.value as PersonalInformation;
-
-      this.insuredRegistration = {
-        ...this.insuredRegistration,
-        ...personalInformation,
-      };
-
-      console.log(this.insuredRegistration);
-
-      this.currentStep++;
-    } else {
-      this.showFormErrors(form);
-    }
-  }
-
   private showFormErrors(form: FormGroup) {
     Object.values(form.controls).forEach((control) => {
       if (control.invalid) {
@@ -109,20 +133,5 @@ export class WizardComponent implements OnInit {
         control.updateValueAndValidity({ onlySelf: true });
       }
     });
-  }
-
-  submitVehicleData(form: FormGroup) {
-    if (form.valid) {
-      const vehicleInformation = form.value as VehicleInformation;
-
-      this.insuredRegistration = {
-        ...this.insuredRegistration,
-        ...vehicleInformation,
-      };
-
-      console.log(this.insuredRegistration);
-    } else {
-      this.showFormErrors(form);
-    }
   }
 }

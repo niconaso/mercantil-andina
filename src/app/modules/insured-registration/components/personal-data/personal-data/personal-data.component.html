@@ -1,0 +1,294 @@
+<form
+  nz-form
+  [formGroup]="personalDataForm"
+  (ngSubmit)="submitPersonalData(personalDataForm)"
+>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="idNumber" nzRequired
+      >DNI</nz-form-label
+    >
+    <nz-form-control
+      nzHasFeedback
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="errorTpl"
+    >
+      <input
+        nz-input
+        formControlName="idNumber"
+        id="idNumber"
+        inputmode="numeric"
+      />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired
+      >Nombre</nz-form-label
+    >
+    <nz-form-control
+      nzHasFeedback
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="errorTpl"
+    >
+      <input nz-input formControlName="name" id="name" type="text" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="lastName" nzRequired
+      >Apellido</nz-form-label
+    >
+    <nz-form-control
+      nzHasFeedback
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="errorTpl"
+    >
+      <input nz-input formControlName="lastName" id="lastName" type="text" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label
+      [nzSm]="6"
+      [nzXs]="24"
+      nzFor="birthDate"
+      nzTooltipTitle="Recordá que tenés que ser mayor de edad"
+      >Fec. de Nac.</nz-form-label
+    >
+    <nz-form-control
+      nzHasFeedback
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="errorTpl"
+    >
+      <nz-date-picker
+        formControlName="birthDate"
+        nzId="birthDate"
+        nzFormat="yyyy-MM-dd"
+        [nzAllowClear]="false"
+        [nzDisabledDate]="disabledDate"
+        [nzShowToday]="false"
+        [nzPlaceHolder]="'Selecciona tu fecha de nacimiento'"
+      ></nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="email">Email</nz-form-label>
+    <nz-form-control
+      nzHasFeedback
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="errorTpl"
+    >
+      <input nz-input formControlName="email" id="email" type="email" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="cellphoneNumber"
+      >Celular</nz-form-label
+    >
+    <nz-form-control
+      nzHasFeedback
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="errorTpl"
+    >
+      <input
+        nz-input
+        formControlName="cellphoneNumber"
+        id="cellphoneNumber"
+        type="tel"
+      />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber"
+      >Teléfono</nz-form-label
+    >
+    <nz-form-control
+      nzHasFeedback
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="errorTpl"
+    >
+      <input
+        nz-input
+        formControlName="phoneNumber"
+        id="phoneNumber"
+        type="tel"
+      />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="province" nzRequired
+      >Provincia</nz-form-label
+    >
+    <nz-form-control
+      nzHasFeedback
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="errorTpl"
+    >
+      <nz-select
+        nzShowSearch
+        nzAllowClear
+        nzPlaceHolder="Selecciona la provincia"
+        formControlName="province"
+        id="province"
+      >
+        <nz-option
+          *ngFor="let province of provinces$ | async"
+          [nzLabel]="province.nombre"
+          [nzValue]="province.id"
+        ></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="city" nzRequired
+      >Ciudad</nz-form-label
+    >
+    <nz-form-control
+      nzHasFeedback
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="errorTpl"
+    >
+      <nz-select
+        nzShowSearch
+        nzAllowClear
+        nzPlaceHolder="Selecciona la ciudad"
+        formControlName="city"
+        id="city"
+      >
+        <nz-option
+          *ngFor="let city of cities$ | async"
+          [nzLabel]="city.nombre"
+          [nzValue]="city.id"
+        ></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address" nzRequired
+      >Domicilio</nz-form-label
+    >
+    <nz-form-control
+      nzHasFeedback
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="errorTpl"
+    >
+      <input nz-input formControlName="address" id="address" type="text" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzRequired [nzSm]="6" [nzXs]="24" nzFor="username"
+      >Usuario</nz-form-label
+    >
+    <nz-form-control
+      nzHasFeedback
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="errorTpl"
+      nzValidatingTip="Validando usuario"
+    >
+      <input nz-input formControlName="username" id="username" type="text" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label
+      nzRequired
+      [nzSm]="6"
+      [nzXs]="24"
+      nzFor="password"
+      nzTooltipTitle="Utilizá Mayusculas, símbolos y caracteres especiales"
+      >Contraseña</nz-form-label
+    >
+    <nz-form-control
+      nzHasFeedback
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="errorTpl"
+    >
+      <input
+        nz-input
+        formControlName="password"
+        id="password"
+        type="password"
+      />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row>
+    <nz-form-control
+      nz-col
+      [nzXs]="{ span: 14, offset: 0 }"
+      [nzSm]="{ span: 14, offset: 6 }"
+    >
+      <button
+        nz-button
+        nzType="primary"
+        type="submit"
+        [disabled]="personalDataForm.invalid"
+      >
+        Siguiente
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+
+<ng-template #errorTpl let-control>
+  <ng-container *ngIf="control.hasError('required')">
+    <div nz-typography nzType="warning">Este campo es requerido.</div>
+  </ng-container>
+
+  <ng-container *ngIf="control.hasError('pattern')">
+    <div nz-typography nzType="warning">Ingrese sólo caracteres.</div>
+  </ng-container>
+
+  <ng-container *ngIf="control.hasError('minlength')">
+    <div nz-typography nzType="warning">
+      Ingrese al menos
+      {{ control.errors["minlength"].requiredLength }} caracteres.
+    </div>
+  </ng-container>
+  <ng-container *ngIf="control.hasError('maxlength')">
+    <div nz-typography nzType="warning">
+      Ingrese como máximo
+      {{ control.errors["maxlength"].requiredLength }} caracteres.
+    </div></ng-container
+  >
+
+  <ng-container *ngIf="control.hasError('numberRequired')">
+    <div nz-typography nzType="warning">Ingrese sólo números.</div>
+  </ng-container>
+
+  <ng-container *ngIf="control.hasError('usernameExists')">
+    {{control.errors | json}}
+    <div nz-typography nzType="warning">El nombre de usuario ya existe.</div>
+  </ng-container>
+
+  <ng-container *ngIf="control.hasError('normalEmailRule')">
+    <div nz-typography nzType="warning">Ingrese un email válido.</div>
+  </ng-container>
+
+  <ng-container *ngIf="control.hasError('noPhoneNumber')">
+    <div nz-typography nzType="warning">
+
+      Ingrese un número de teléfono válido.
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="control.hasError('isNotStrength')">
+    <div nz-typography nzType="warning">La contraseña elegida es muy débil</div>
+  </ng-container>
+</ng-template>

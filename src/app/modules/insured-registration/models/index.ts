@@ -3,3 +3,7 @@ export * from './vehicle-information.interface';
 export * from './vehicle-brand.interface';
 export * from './vehicle-model.interface';
 export * from './vehicle-year.interface';
+export * from './province.interface';
+export * from './insured-registration.interface';
+export * from './city.interface';
+export * from './vehicle-version.interface';

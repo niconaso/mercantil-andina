@@ -1,5 +1,13 @@
 export interface Address {
   /**
+   * Province
+   *
+   * @type {string}
+   * @memberof Address
+   */
+  province: string;
+
+  /**
    * City
    *
    * @type {string}
@@ -8,18 +16,10 @@ export interface Address {
   city: string;
 
   /**
-   * Street (plain text, could include number and floor)
+   * Address (plain text, could include number and floor)
    *
    * @type {string}
    * @memberof Address
    */
-  street: string;
-
-  /**
-   * Province
-   *
-   * @type {string}
-   * @memberof Address
-   */
-  province: string;
+  address: string;
 }

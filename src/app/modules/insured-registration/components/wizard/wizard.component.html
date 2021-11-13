@@ -65,8 +65,11 @@
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="birthDate"
-        nzTooltipTitle="Recordá que tenés que ser mayor de edad"
+        <nz-form-label
+          [nzSm]="6"
+          [nzXs]="24"
+          nzFor="birthDate"
+          nzTooltipTitle="Recordá que tenés que ser mayor de edad"
           >Fec. de Nac.</nz-form-label
         >
         <nz-form-control
@@ -139,8 +142,8 @@
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber"
-          >Teléfono</nz-form-label
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="province" nzRequired
+          >Provincia</nz-form-label
         >
         <nz-form-control
           nzHasFeedback
@@ -148,12 +151,59 @@
           [nzXs]="24"
           [nzErrorTip]="errorTpl"
         >
-          <input
-            nz-input
-            formControlName="phoneNumber"
-            id="phoneNumber"
-            type="tel"
-          />
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            nzPlaceHolder="Selecciona la provincia"
+            formControlName="province"
+            id="province"
+          >
+            <nz-option
+              *ngFor="let province of provinces$ | async"
+              [nzLabel]="province.nombre"
+              [nzValue]="province.id"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="city" nzRequired
+          >Ciudad</nz-form-label
+        >
+        <nz-form-control
+          nzHasFeedback
+          [nzSm]="14"
+          [nzXs]="24"
+          [nzErrorTip]="errorTpl"
+        >
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            nzPlaceHolder="Selecciona la ciudad"
+            formControlName="city"
+            id="city"
+          >
+            <nz-option
+              *ngFor="let city of cities$ | async"
+              [nzLabel]="city.nombre"
+              [nzValue]="city.id"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address" nzRequired
+          >Domicilio</nz-form-label
+        >
+        <nz-form-control
+          nzHasFeedback
+          [nzSm]="14"
+          [nzXs]="24"
+          [nzErrorTip]="errorTpl"
+        >
+          <input nz-input formControlName="address" id="address" type="text" />
         </nz-form-control>
       </nz-form-item>
 
@@ -234,7 +284,7 @@
           <nz-select
             nzShowSearch
             nzAllowClear
-            nzPlaceHolder="Seleccina la marca"
+            nzPlaceHolder="Selecciona la marca"
             formControlName="brand"
             id="brand"
           >
@@ -260,7 +310,7 @@
           <nz-select
             nzShowSearch
             nzAllowClear
-            nzPlaceHolder="Seleccina el año"
+            nzPlaceHolder="Selecciona el año"
             formControlName="year"
             id="year"
           >
@@ -286,7 +336,7 @@
           <nz-select
             nzShowSearch
             nzAllowClear
-            nzPlaceHolder="Seleccina el modelo"
+            nzPlaceHolder="Selecciona el modelo"
             formControlName="model"
             id="model"
           >
@@ -300,7 +350,7 @@
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="version"
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="version" nzRequired
           >Versión</nz-form-label
         >
         <nz-form-control
@@ -309,7 +359,19 @@
           [nzXs]="24"
           [nzErrorTip]="errorTpl"
         >
-          <input nz-input formControlName="version" id="version" type="text" />
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            nzPlaceHolder="Selecciona la versión"
+            formControlName="version"
+            id="version"
+          >
+            <nz-option
+              [nzLabel]="vehicleVersion.desc"
+              [nzValue]="vehicleVersion.codigo"
+              *ngFor="let vehicleVersion of vehicleVersions$ | async"
+            ></nz-option>
+          </nz-select>
         </nz-form-control>
       </nz-form-item>
 

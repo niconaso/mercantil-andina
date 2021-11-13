@@ -6,14 +6,17 @@ import { EmailValidators, UniversalValidators } from 'ngx-validators';
 import { Observable, of, Subscription } from 'rxjs';
 import { legalAgeDate, oldAgeDate } from 'src/app/utils';
 import {
+  City,
+  InsuredRegistration,
   PersonalInformation,
+  Province,
   VehicleBrand,
   VehicleInformation,
   VehicleModel,
+  VehicleVersion,
   VehicleYear,
 } from '../../models';
-import { InsuredRegistration } from '../../models/insured-registration.interface';
-import { VechicleService } from '../../services';
+import { GeoReferenceService, VechicleService } from '../../services';
 import { UsernameValidatorService } from '../../validators';
 
 @Component({
@@ -31,9 +34,37 @@ export class WizardComponent implements OnInit, OnDestroy {
    * @memberof WizardComponent
    */
   currentStep: number = 0;
-
+  /**
+   * Personal information form
+   *
+   * @type {FormGroup}
+   * @memberof WizardComponent
+   */
   personalDataForm!: FormGroup;
+
+  /**
+   * Vehicle information form
+   *
+   * @type {FormGroup}
+   * @memberof WizardComponent
+   */
   vehicleDataForm!: FormGroup;
+
+  /**
+   * List of Argentina provinces
+   *
+   * @type {Observable<Province[]>}
+   * @memberof WizardComponent
+   */
+  provinces$!: Observable<Province[]>;
+
+  /**
+   * List of Cities
+   *
+   * @type {Observable<City[]>}
+   * @memberof WizardComponent
+   */
+  cities$!: Observable<City[]>;
 
   /**
    * Brand list to select
@@ -59,6 +90,14 @@ export class WizardComponent implements OnInit, OnDestroy {
    */
   vehicleYears$!: Observable<VehicleYear[]>;
 
+  /**
+   * List of version based on the brand, year and model
+   *
+   * @type {Observable<VehicleVersion[]>}
+   * @memberof WizardComponent
+   */
+  vehicleVersions$!: Observable<VehicleVersion[]>;
+
   private readonly NAME_MINLENGTH: number = 2;
   private readonly NAME_MAXLENGTH: number = 15;
   private readonly ID_NUMBER_MINLENGTH = 7;
@@ -69,6 +108,13 @@ export class WizardComponent implements OnInit, OnDestroy {
   private readonly OLD_AGE_DATE: Date = oldAgeDate();
   private readonly LEGAL_AGE_DATE: Date = legalAgeDate();
 
+  /**
+   * Unsubscribe from all observables
+   *
+   * @private
+   * @type {Subscription}
+   * @memberof WizardComponent
+   */
   private subscription: Subscription = new Subscription();
 
   /**
@@ -87,8 +133,9 @@ export class WizardComponent implements OnInit, OnDestroy {
    */
   constructor(
     private readonly fb: FormBuilder,
-    private usernameValidatorService: UsernameValidatorService,
-    private vehicleService: VechicleService
+    private readonly usernameValidatorService: UsernameValidatorService,
+    private readonly geoRefService: GeoReferenceService,
+    private readonly vehicleService: VechicleService
   ) {}
 
   ngOnInit(): void {
@@ -115,6 +162,12 @@ export class WizardComponent implements OnInit, OnDestroy {
     });
   };
 
+  /**
+   * Persist personal info and continue to the next step
+   *
+   * @param {FormGroup} form
+   * @memberof WizardComponent
+   */
   submitPersonalData(form: FormGroup) {
     if (form.valid) {
       const personalInformation = form.value as PersonalInformation;
@@ -132,6 +185,12 @@ export class WizardComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Persist vehicle info and continue to the next step
+   *
+   * @param {FormGroup} form
+   * @memberof WizardComponent
+   */
   submitVehicleData(form: FormGroup) {
     if (form.valid) {
       const vehicleInformation = form.value as VehicleInformation;
@@ -147,6 +206,12 @@ export class WizardComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Set the validations of each form
+   *
+   * @private
+   * @memberof WizardComponent
+   */
   private setFormValidations() {
     this.setPersonalDataValidations();
     this.setVehicleDataValidations();
@@ -159,6 +224,7 @@ export class WizardComponent implements OnInit, OnDestroy {
    * @memberof WizardComponent
    */
   private loadData() {
+    this.provinces$ = this.geoRefService.getAllProvinces();
     this.vechicleBrands$ = this.vehicleService.getAllBrands();
     this.vehicleYears$ = this.vehicleService.getYears();
   }
@@ -170,18 +236,45 @@ export class WizardComponent implements OnInit, OnDestroy {
    * @memberof WizardComponent
    */
   private loadModels() {
+    this.vechicleModels$ = of([]);
+    this.vehicleDataForm.get('model')?.reset();
+
     const brandCode: number = this.vehicleDataForm.get('brand')?.value;
     const year: number = this.vehicleDataForm.get('year')?.value;
 
     if (brandCode && year) {
       this.vechicleModels$ = this.vehicleService.getModels(brandCode, year);
-    } else {
-      // If brandCode or Year is null then reset the selected model
-      this.vechicleModels$ = of([]);
-      this.vehicleDataForm.get('model')?.reset();
     }
   }
 
+  /**
+   * Load the version base on th brand, year and model selected
+   *
+   * @private
+   * @memberof WizardComponent
+   */
+  private loadVersions(modelId: number): void {
+    this.vehicleVersions$ = of([]);
+    this.vehicleDataForm.get('version')?.reset();
+
+    const brandCode: number = this.vehicleDataForm.get('brand')?.value;
+    const year: number = this.vehicleDataForm.get('year')?.value;
+
+    if (brandCode && year && modelId) {
+      this.vehicleVersions$ = this.vehicleService.getVersions(
+        brandCode,
+        year,
+        modelId
+      );
+    }
+  }
+
+  /**
+   * Set the validations of the Personal info form
+   *
+   * @private
+   * @memberof WizardComponent
+   */
   private setPersonalDataValidations() {
     this.personalDataForm = this.fb.group({
       idNumber: [
@@ -213,10 +306,13 @@ export class WizardComponent implements OnInit, OnDestroy {
           UniversalValidators.noEmptyString,
         ],
       ],
-      birthDate: [this.LEGAL_AGE_DATE, []],
+      birthDate: [this.LEGAL_AGE_DATE],
       email: [null, [EmailValidators.simple]],
       cellphoneNumber: [null, [PhoneValidators.isPhoneNumber('AR')]],
       phoneNumber: [null, [PhoneValidators.isPhoneNumber('AR')]],
+      province: [null, [Validators.required]],
+      city: [null, [Validators.required]],
+      address: [null, [Validators.required, UniversalValidators.noEmptyString]],
       username: [
         null,
         [
@@ -228,14 +324,44 @@ export class WizardComponent implements OnInit, OnDestroy {
       ],
       password: [null, [Validators.required]],
     });
+
+    this.subscription.add(
+      this.personalDataForm
+        .get('province')
+        ?.valueChanges.subscribe((provinceId: string) =>
+          this.loadCities(provinceId)
+        )
+    );
   }
 
+  /**
+   * Load the cities for the selected Province
+   *
+   * @private
+   * @param {string} provinceId
+   * @memberof WizardComponent
+   */
+  private loadCities(provinceId: string): void {
+    this.cities$ = of([]);
+    this.personalDataForm.get('city')?.reset();
+
+    if (provinceId) {
+      this.cities$ = this.geoRefService.getAllCities(provinceId);
+    }
+  }
+
+  /**
+   * Set the validations of the Vehicle form
+   *
+   * @private
+   * @memberof WizardComponent
+   */
   private setVehicleDataValidations() {
     this.vehicleDataForm = this.fb.group({
       brand: [null, [Validators.required]],
       year: [null, [Validators.required]],
       model: [null, [Validators.required]],
-      version: [null],
+      version: [null, [Validators.required]],
     });
 
     this.subscription.add(
@@ -247,6 +373,14 @@ export class WizardComponent implements OnInit, OnDestroy {
       this.vehicleDataForm
         .get('year')
         ?.valueChanges.subscribe(() => this.loadModels())
+    );
+
+    this.subscription.add(
+      this.vehicleDataForm
+        .get('model')
+        ?.valueChanges.subscribe((modelId: number) =>
+          this.loadVersions(modelId)
+        )
     );
   }
 

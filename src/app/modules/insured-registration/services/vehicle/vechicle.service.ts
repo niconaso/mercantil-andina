@@ -3,7 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { yearsRangeFromToday } from 'src/app/utils';
 import { environment } from 'src/environments/environment';
-import { VehicleBrand, VehicleModel, VehicleYear } from '../../models';
+import {
+  VehicleBrand,
+  VehicleModel,
+  VehicleYear,
+  VehicleVersion,
+} from '../../models';
 
 @Injectable({
   providedIn: 'root',
@@ -52,5 +57,21 @@ export class VechicleService {
     const years: VehicleYear[] = yearsRangeFromToday(20);
 
     return of(years);
+  }
+
+  /**
+   * Return the version for the brand, year and model
+   *
+   * @return {*}  {Observable<VehicleVersion[]>}
+   * @memberof VechicleService
+   */
+  getVersions(
+    brandCode: number,
+    year: number,
+    model: number
+  ): Observable<VehicleVersion[]> {
+    const url: string = `${environment.mercantilAndina.api}/vehiculos/marcas/${brandCode}/${year}/${model}`;
+
+    return this.http.get<VehicleVersion[]>(url);
   }
 }

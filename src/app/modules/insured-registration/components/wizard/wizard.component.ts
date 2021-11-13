@@ -20,7 +20,10 @@ import {
   GeoReferenceService,
   VechicleService,
 } from '@modules/insured-registration/services';
-import { UsernameValidatorService } from '@core/validators';
+import {
+  PasswordValidatorService,
+  UsernameValidatorService,
+} from '@core/validators';
 
 @Component({
   selector: 'app-wizard',
@@ -132,11 +135,16 @@ export class WizardComponent implements OnInit, OnDestroy {
   /**
    * Creates an instance of WizardComponent.
    * @param {FormBuilder} fb
+   * @param {UsernameValidatorService} usernameValidatorService
+   * @param {PasswordValidatorService} passwordValidatorService
+   * @param {GeoReferenceService} geoRefService
+   * @param {VechicleService} vehicleService
    * @memberof WizardComponent
    */
   constructor(
     private readonly fb: FormBuilder,
     private readonly usernameValidatorService: UsernameValidatorService,
+    private readonly passwordValidatorService: PasswordValidatorService,
     private readonly geoRefService: GeoReferenceService,
     private readonly vehicleService: VechicleService
   ) {}
@@ -325,7 +333,11 @@ export class WizardComponent implements OnInit, OnDestroy {
         ],
         [this.usernameValidatorService.usernameValidator()],
       ],
-      password: [null, [Validators.required]],
+      password: [
+        null,
+        [Validators.required],
+        [this.passwordValidatorService.passwordStrengthValidator()],
+      ],
     });
 
     this.subscription.add(

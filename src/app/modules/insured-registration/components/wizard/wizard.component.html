@@ -228,7 +228,12 @@
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label nzRequired [nzSm]="6" [nzXs]="24" nzFor="password"
+        <nz-form-label
+          nzRequired
+          [nzSm]="6"
+          [nzXs]="24"
+          nzFor="password"
+          nzTooltipTitle="Utilizá Mayusculas, símbolos y caracteres especiales"
           >Contraseña</nz-form-label
         >
         <nz-form-control
@@ -431,6 +436,12 @@
     <ng-container *ngIf="control.hasError('noPhoneNumber')">
       <div nz-typography nzType="warning">
         Ingrese un número de teléfono válido.
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="control.hasError('isNotStrength')">
+      <div nz-typography nzType="warning">
+        La contraseña elegida es muy débil
       </div>
     </ng-container>
   </ng-template>

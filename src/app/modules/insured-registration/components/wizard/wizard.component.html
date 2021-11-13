@@ -238,11 +238,13 @@
       >Este campo es requerido</ng-container
     >
 
-    <ng-container *ngIf="control.hasError('maxlength')"
-      >La cantidad de caracteres mínima es 3</ng-container
-    >
     <ng-container *ngIf="control.hasError('minlength')"
-      >La cantidad de caracteres máxima es 15</ng-container
+      >Ingrese al menos
+      {{ control.errors["minlength"].requiredLength }} caracteres
+    </ng-container>
+    <ng-container *ngIf="control.hasError('maxlength')"
+      >Ingrese como máximo
+      {{ control.errors["maxlength"].requiredLength }} caracteres</ng-container
     >
 
     <ng-container *ngIf="control.hasError('numberRequired')">

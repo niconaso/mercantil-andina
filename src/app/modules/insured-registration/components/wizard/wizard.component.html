@@ -24,11 +24,6 @@
           [nzXs]="24"
           [nzErrorTip]="errorTpl"
         >
-          <!-- <nz-input-number
-            formControlName="idNumber"
-            nzId="idNumber"
-            nzInputMode="numeric"
-          ></nz-input-number> -->
           <input
             nz-input
             formControlName="idNumber"
@@ -83,6 +78,7 @@
             formControlName="birthDate"
             nzId="birthDate"
             nzFormat="yyyy-MM-dd"
+            [nzAllowClear]="false"
             [nzDisabledDate]="disabledDate"
             [nzShowToday]="false"
             [nzPlaceHolder]="'Selecciona tu fecha de nacimiento'"

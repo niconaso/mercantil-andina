@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { yearsRangeFromToday } from 'src/app/utils';
-import { environment } from 'src/environments/environment';
 import {
   VehicleBrand,
   VehicleModel,
-  VehicleYear,
   VehicleVersion,
-} from '../../models';
+  VehicleYear,
+} from '@modules/insured-registration/models';
+import { yearsRangeFromToday } from '@utils';
+import { Observable, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',

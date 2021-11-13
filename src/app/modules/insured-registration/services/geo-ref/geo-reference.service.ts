@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { pluck } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { City, Province } from '../../models';
+import { City, Province } from '@modules/insured-registration/models';
 
 @Injectable({
   providedIn: 'root',

@@ -4,7 +4,7 @@ import { isWithinInterval } from 'date-fns';
 import { PhoneValidators } from 'ngx-phone-validators';
 import { EmailValidators, UniversalValidators } from 'ngx-validators';
 import { Observable, of, Subscription } from 'rxjs';
-import { legalAgeDate, oldAgeDate } from 'src/app/utils';
+import { legalAgeDate, oldAgeDate } from '@utils';
 import {
   City,
   InsuredRegistration,
@@ -15,9 +15,12 @@ import {
   VehicleModel,
   VehicleVersion,
   VehicleYear,
-} from '../../models';
-import { GeoReferenceService, VechicleService } from '../../services';
-import { UsernameValidatorService } from '../../validators';
+} from '@modules/insured-registration/models';
+import {
+  GeoReferenceService,
+  VechicleService,
+} from '@modules/insured-registration/services';
+import { UsernameValidatorService } from '@core/validators';
 
 @Component({
   selector: 'app-wizard',

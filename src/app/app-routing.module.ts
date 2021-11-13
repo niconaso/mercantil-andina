@@ -5,7 +5,7 @@ const routes: Routes = [
   {
     path: 'insured-registration',
     loadChildren: () =>
-      import('./modules/insured-registration/insured-registration.module').then(
+      import('@modules/insured-registration/insured-registration.module').then(
         (m) => m.InsuredRegistrationModule
       ),
   },

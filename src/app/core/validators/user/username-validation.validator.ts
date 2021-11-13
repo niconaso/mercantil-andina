@@ -6,7 +6,7 @@ import {
 } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { UserService } from '../../services';
+import { UserService } from '@modules/insured-registration/services';
 
 @Injectable({
   providedIn: 'root',

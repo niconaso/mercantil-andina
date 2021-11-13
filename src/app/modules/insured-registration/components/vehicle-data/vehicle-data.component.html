@@ -1,0 +1,172 @@
+<form
+  nz-form
+  [formGroup]="vehicleDataForm"
+  (ngSubmit)="submitVehicleData(vehicleDataForm)"
+>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="brand" nzRequired
+      >Marca</nz-form-label
+    >
+    <nz-form-control
+      nzHasFeedback
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="errorTpl"
+    >
+      <nz-select
+        nzShowSearch
+        nzAllowClear
+        nzPlaceHolder="Selecciona la marca"
+        formControlName="brand"
+        id="brand"
+      >
+        <nz-option
+          [nzLabel]="vehicleBrand.desc"
+          [nzValue]="vehicleBrand.codigo"
+          *ngFor="let vehicleBrand of vechicleBrands$ | async"
+        ></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="year" nzRequired
+      >Año</nz-form-label
+    >
+    <nz-form-control
+      nzHasFeedback
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="errorTpl"
+    >
+      <nz-select
+        nzShowSearch
+        nzAllowClear
+        nzPlaceHolder="Selecciona el año"
+        formControlName="year"
+        id="year"
+      >
+        <nz-option
+          [nzLabel]="vehicleYear"
+          [nzValue]="vehicleYear"
+          *ngFor="let vehicleYear of vehicleYears$ | async"
+        ></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="model" nzRequired
+      >Modelo</nz-form-label
+    >
+    <nz-form-control
+      nzHasFeedback
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="errorTpl"
+    >
+      <nz-select
+        nzShowSearch
+        nzAllowClear
+        nzPlaceHolder="Selecciona el modelo"
+        formControlName="model"
+        id="model"
+      >
+        <nz-option
+          [nzLabel]="vehicleModel"
+          [nzValue]="vehicleModel"
+          *ngFor="let vehicleModel of vechicleModels$ | async"
+        ></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="version" nzRequired
+      >Versión</nz-form-label
+    >
+    <nz-form-control
+      nzHasFeedback
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="errorTpl"
+    >
+      <nz-select
+        nzShowSearch
+        nzAllowClear
+        nzPlaceHolder="Selecciona la versión"
+        formControlName="version"
+        id="version"
+      >
+        <nz-option
+          [nzLabel]="vehicleVersion.desc"
+          [nzValue]="vehicleVersion.codigo"
+          *ngFor="let vehicleVersion of vehicleVersions$ | async"
+        ></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row>
+    <nz-form-control
+      nz-col
+      [nzXs]="{ span: 14, offset: 0 }"
+      [nzSm]="{ span: 14, offset: 6 }"
+    >
+      <button
+        nz-button
+        nzType="primary"
+        type="submit"
+        [disabled]="vehicleDataForm.invalid"
+      >
+        Cotizar
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+
+<ng-template #errorTpl let-control>
+  <ng-container *ngIf="control.hasError('required')">
+    <div nz-typography nzType="warning">Este campo es requerido.</div>
+  </ng-container>
+
+  <ng-container *ngIf="control.hasError('pattern')">
+    <div nz-typography nzType="warning">Ingrese sólo caracteres.</div>
+  </ng-container>
+
+  <ng-container *ngIf="control.hasError('minlength')">
+    <div nz-typography nzType="warning">
+      Ingrese al menos
+      {{ control.errors["minlength"].requiredLength }} caracteres.
+    </div>
+  </ng-container>
+  <ng-container *ngIf="control.hasError('maxlength')">
+    <div nz-typography nzType="warning">
+      Ingrese como máximo
+      {{ control.errors["maxlength"].requiredLength }} caracteres.
+    </div></ng-container
+  >
+
+  <ng-container *ngIf="control.hasError('numberRequired')">
+    <div nz-typography nzType="warning">Ingrese sólo números.</div>
+  </ng-container>
+
+  <ng-container *ngIf="control.hasError('usernameExists')">
+    {{ control.errors | json }}
+    <div nz-typography nzType="warning">El nombre de usuario ya existe.</div>
+  </ng-container>
+
+  <ng-container *ngIf="control.hasError('normalEmailRule')">
+    <div nz-typography nzType="warning">Ingrese un email válido.</div>
+  </ng-container>
+
+  <ng-container *ngIf="control.hasError('noPhoneNumber')">
+    <div nz-typography nzType="warning">
+      Ingrese un número de teléfono válido.
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="control.hasError('isNotStrength')">
+    <div nz-typography nzType="warning">La contraseña elegida es muy débil</div>
+  </ng-container>
+</ng-template>

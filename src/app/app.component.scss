@@ -1,0 +1,29 @@
+.layout {
+    min-height: 100vh;
+}
+
+.header-logo {
+    max-height: 3rem;
+}
+
+nz-header {
+    position: fixed;
+    width: 100%;
+    padding: 0 2rem;
+    z-index: 1000;
+}
+
+nz-header,
+nz-footer {
+    background: #ffffff;
+
+}
+
+nz-footer {
+    line-height: 1.5;
+}
+
+nz-content {
+    padding: 2rem;
+    margin-top: 64px;
+}

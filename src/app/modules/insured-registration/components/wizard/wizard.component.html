@@ -1,0 +1,260 @@
+<nz-steps [nzCurrent]="currentStep">
+  <nz-step nzTitle="Datos Personales"> </nz-step>
+  <nz-step nzTitle="Datos de tu vehiculo">
+    <!-- <form [formGroup]="vehicleDataForm">
+
+    </form> -->
+  </nz-step>
+</nz-steps>
+
+<div class="steps-content">
+  <ng-container *ngIf="currentStep === 0">
+    <form
+      nz-form
+      [formGroup]="personalDataForm"
+      (ngSubmit)="submitPersonalData(personalDataForm)"
+    >
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="idNumber" nzRequired
+          >DNI</nz-form-label
+        >
+        <nz-form-control
+          nzHasFeedback
+          [nzSm]="14"
+          [nzXs]="24"
+          [nzErrorTip]="errorTpl"
+        >
+          <input nz-input formControlName="idNumber" id="idNumber" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired
+          >Nombre</nz-form-label
+        >
+        <nz-form-control
+          nzHasFeedback
+          [nzSm]="14"
+          [nzXs]="24"
+          [nzErrorTip]="errorTpl"
+        >
+          <input nz-input formControlName="name" id="name" type="text" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="lastName" nzRequired
+          >Apellido</nz-form-label
+        >
+        <nz-form-control
+          nzHasFeedback
+          [nzSm]="14"
+          [nzXs]="24"
+          [nzErrorTip]="errorTpl"
+        >
+          <input
+            nz-input
+            formControlName="lastName"
+            id="lastName"
+            type="text"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="email"
+          >Email</nz-form-label
+        >
+        <nz-form-control
+          nzHasFeedback
+          [nzSm]="14"
+          [nzXs]="24"
+          [nzErrorTip]="errorTpl"
+        >
+          <input nz-input formControlName="email" id="email" type="email" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="cellphoneNumber"
+          >Celular</nz-form-label
+        >
+        <nz-form-control
+          nzHasFeedback
+          [nzSm]="14"
+          [nzXs]="24"
+          [nzErrorTip]="errorTpl"
+        >
+          <input
+            nz-input
+            formControlName="cellphoneNumber"
+            id="cellphoneNumber"
+            type="tel"
+          />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber"
+          >Teléfono</nz-form-label
+        >
+        <nz-form-control
+          nzHasFeedback
+          [nzSm]="14"
+          [nzXs]="24"
+          [nzErrorTip]="errorTpl"
+        >
+          <input
+            nz-input
+            formControlName="phoneNumber"
+            id="phoneNumber"
+            type="tel"
+          />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired [nzSm]="6" [nzXs]="24" nzFor="username"
+          >Usuario</nz-form-label
+        >
+        <nz-form-control
+          nzHasFeedback
+          [nzSm]="14"
+          [nzXs]="24"
+          [nzErrorTip]="errorTpl"
+        >
+          <input
+            nz-input
+            formControlName="username"
+            id="username"
+            type="text"
+          />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired [nzSm]="6" [nzXs]="24" nzFor="password"
+          >Contraseña</nz-form-label
+        >
+        <nz-form-control
+          nzHasFeedback
+          [nzSm]="14"
+          [nzXs]="24"
+          [nzErrorTip]="errorTpl"
+        >
+          <input
+            nz-input
+            formControlName="password"
+            id="password"
+            type="password"
+          />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item nz-row>
+        <nz-form-control
+          nz-col
+          [nzXs]="{ span: 14, offset: 0 }"
+          [nzSm]="{ span: 14, offset: 6 }"
+        >
+          <button nz-button nzType="primary" type="submit">Continuar</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+
+  <ng-container *ngIf="currentStep === 1">
+    <form
+      nz-form
+      [formGroup]="vehicleDataForm"
+      (ngSubmit)="submitVehicleData(vehicleDataForm)"
+    >
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="brand" nzRequired
+          >Marca</nz-form-label
+        >
+        <nz-form-control
+          nzHasFeedback
+          [nzSm]="14"
+          [nzXs]="24"
+          [nzErrorTip]="errorTpl"
+        >
+          <input nz-input formControlName="brand" id="brand" type="text" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="year" nzRequired
+          >Año</nz-form-label
+        >
+        <nz-form-control
+          nzHasFeedback
+          [nzSm]="14"
+          [nzXs]="24"
+          [nzErrorTip]="errorTpl"
+        >
+          <input nz-input formControlName="year" id="year" type="text" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="model" nzRequired
+          >Modelo</nz-form-label
+        >
+        <nz-form-control
+          nzHasFeedback
+          [nzSm]="14"
+          [nzXs]="24"
+          [nzErrorTip]="errorTpl"
+        >
+          <input nz-input formControlName="model" id="model" type="text" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="version"
+          >Versión</nz-form-label
+        >
+        <nz-form-control
+          nzHasFeedback
+          [nzSm]="14"
+          [nzXs]="24"
+          [nzErrorTip]="errorTpl"
+        >
+          <input nz-input formControlName="version" id="version" type="text" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item nz-row>
+        <nz-form-control
+          nz-col
+          [nzXs]="{ span: 14, offset: 0 }"
+          [nzSm]="{ span: 14, offset: 6 }"
+        >
+          <button nz-button nzType="primary" type="submit">Cotizar</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+
+  <ng-template #errorTpl let-control>
+    <ng-container *ngIf="control.hasError('required')"
+      >Este campo es requerido</ng-container
+    >
+
+    <ng-container *ngIf="control.hasError('maxlength')"
+      >La cantidad de caracteres mínima es 3</ng-container
+    >
+    <ng-container *ngIf="control.hasError('minlength')"
+      >La cantidad de caracteres máxima es 15</ng-container
+    >
+
+    <ng-container *ngIf="control.hasError('numberRequired')">
+      Ingrese sólo números
+    </ng-container>
+
+    <ng-container *ngIf="control.hasError('normalEmailRule')">
+      Ingrese un email válido
+    </ng-container>
+
+    <ng-container *ngIf="control.hasError('noPhoneNumber')">
+      Ingrese un número de teléfono válido
+    </ng-container>
+  </ng-template>
+</div>

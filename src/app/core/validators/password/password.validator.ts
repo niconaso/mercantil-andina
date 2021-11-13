@@ -36,7 +36,7 @@ export class PasswordValidatorService {
         map((res) => {
           const isNotStrength = !validStrenghs.includes(res.value);
 
-          return res ? { isNotStrength, ...res } : null;
+          return isNotStrength ? { isNotStrength: true, ...res } : null;
         })
       );
     };

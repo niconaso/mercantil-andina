@@ -24,7 +24,17 @@
           [nzXs]="24"
           [nzErrorTip]="errorTpl"
         >
-          <input nz-input formControlName="idNumber" id="idNumber" />
+          <!-- <nz-input-number
+            formControlName="idNumber"
+            nzId="idNumber"
+            nzInputMode="numeric"
+          ></nz-input-number> -->
+          <input
+            nz-input
+            formControlName="idNumber"
+            id="idNumber"
+            inputmode="numeric"
+          />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
@@ -153,7 +163,14 @@
           [nzXs]="{ span: 14, offset: 0 }"
           [nzSm]="{ span: 14, offset: 6 }"
         >
-          <button nz-button nzType="primary" type="submit">Continuar</button>
+          <button
+            nz-button
+            nzType="primary"
+            type="submit"
+            [disabled]="personalDataForm.invalid"
+          >
+            Continuar
+          </button>
         </nz-form-control>
       </nz-form-item>
     </form>
@@ -227,36 +244,53 @@
           [nzXs]="{ span: 14, offset: 0 }"
           [nzSm]="{ span: 14, offset: 6 }"
         >
-          <button nz-button nzType="primary" type="submit">Cotizar</button>
+          <button
+            nz-button
+            nzType="primary"
+            type="submit"
+            [disabled]="vehicleDataForm.invalid"
+          >
+            Cotizar
+          </button>
         </nz-form-control>
       </nz-form-item>
     </form>
   </ng-container>
 
   <ng-template #errorTpl let-control>
-    <ng-container *ngIf="control.hasError('required')"
-      >Este campo es requerido</ng-container
-    >
-
-    <ng-container *ngIf="control.hasError('minlength')"
-      >Ingrese al menos
-      {{ control.errors["minlength"].requiredLength }} caracteres
+    <ng-container *ngIf="control.hasError('required')">
+      <div nz-typography nzType="warning">AEste campo es requerido.</div>
     </ng-container>
-    <ng-container *ngIf="control.hasError('maxlength')"
-      >Ingrese como máximo
-      {{ control.errors["maxlength"].requiredLength }} caracteres</ng-container
+
+    <ng-container *ngIf="control.hasError('minlength')">
+      <div nz-typography nzType="warning">
+        Ingrese al menos
+        {{ control.errors["minlength"].requiredLength }} caracteres.
+      </div>
+    </ng-container>
+    <ng-container *ngIf="control.hasError('maxlength')">
+      <div nz-typography nzType="warning">
+        Ingrese como máximo
+        {{ control.errors["maxlength"].requiredLength }} caracteres.
+      </div></ng-container
     >
 
     <ng-container *ngIf="control.hasError('numberRequired')">
-      Ingrese sólo números
+      <div nz-typography nzType="warning">Ingrese sólo números.</div>
+    </ng-container>
+
+    <ng-container *ngIf="control.hasError('usernameExists')">
+      <div nz-typography nzType="warning">El nombre de usuario ya existe.</div>
     </ng-container>
 
     <ng-container *ngIf="control.hasError('normalEmailRule')">
-      Ingrese un email válido
+      <div nz-typography nzType="warning">Ingrese un email válido.</div>
     </ng-container>
 
     <ng-container *ngIf="control.hasError('noPhoneNumber')">
-      Ingrese un número de teléfono válido
+      <div nz-typography nzType="warning">
+        Ingrese un número de teléfono válido.
+      </div>
     </ng-container>
   </ng-template>
 </div>

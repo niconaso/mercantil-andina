@@ -1,6 +1,7 @@
 <nz-steps [nzCurrent]="currentStep" nzType="navigation">
   <nz-step nzTitle="Datos Personales"> </nz-step>
   <nz-step nzTitle="Datos de tu vehiculo"> </nz-step>
+  <nz-step nzTitle="Cobertura"> </nz-step>
 </nz-steps>
 
 <div class="steps-content">
@@ -14,5 +15,11 @@
     <app-vehicle-data
       (vehicleData)="onVehicleDataLoaded($event)"
     ></app-vehicle-data>
+  </ng-container>
+
+  <ng-container *ngIf="currentStep === 2">
+    <app-insurance-coverage
+      [vehicleInformation]="vehicleInformation"
+    ></app-insurance-coverage>
   </ng-container>
 </div>

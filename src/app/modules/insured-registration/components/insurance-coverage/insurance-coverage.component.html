@@ -1,0 +1,52 @@
+<nz-table
+  #basicTable
+  [nzData]="coverage"
+  [nzScroll]="{ y: '310px' }"
+  [nzShowPagination]="false"
+>
+  <thead>
+    <tr>
+      <th>Costo</th>
+      <th>Producto</th>
+      <th>Texto</th>
+      <th>Franquicia</th>
+      <th>Cod. Producto</th>
+      <th>Titulo</th>
+      <th>Descripción</th>
+      <th>Puntaje</th>
+      <th>Granizo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{ data.costo | currency }}</td>
+      <td>{{ data.producto }}</td>
+      <td>{{ data.texto }}</td>
+      <td>{{ data.franquicia }}</td>
+      <td>{{ data.codigoProducto }}</td>
+      <td>{{ data.titulo }}</td>
+      <td>{{ data.descripcion }}</td>
+      <td>{{ data.puntaje }}</td>
+      <td>
+        <div [ngSwitch]="data.granizo">
+          <div *ngSwitchCase="true">
+            <i
+              nz-icon
+              [nzType]="'check-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"
+            ></i>
+          </div>
+          <div *ngSwitchDefault>
+            <i
+              nz-icon
+              nzType="close-circle"
+              nzTheme="twotone"
+              [nzTwotoneColor]="'#f5212b'"
+            ></i>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

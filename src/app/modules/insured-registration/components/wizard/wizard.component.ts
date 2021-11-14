@@ -28,6 +28,16 @@ export class WizardComponent {
    */
   private insuredRegistration!: InsuredRegistration;
 
+  /**
+   * Getter to retrieve only the vehicle information
+   *
+   * @readonly
+   * @memberof WizardComponent
+   */
+  get vehicleInformation() {
+    return this.insuredRegistration.vehicleInformation;
+  }
+
   onPersonalDataLoaded(personalInformation: PersonalInformation) {
     this.insuredRegistration = {
       ...this.insuredRegistration,

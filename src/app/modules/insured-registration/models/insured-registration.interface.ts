@@ -8,7 +8,7 @@ export interface InsuredRegistration {
    * @type {PersonalInformation}
    * @memberof InsuredRegistration
    */
-  personalInformation?: PersonalInformation;
+  personalInformation: PersonalInformation;
 
   /**
    * Vehicle information to request for quotation
@@ -16,5 +16,5 @@ export interface InsuredRegistration {
    * @type {VehicleInformation}
    * @memberof InsuredRegistration
    */
-  vehicleInformation?: VehicleInformation;
+  vehicleInformation: VehicleInformation;
 }

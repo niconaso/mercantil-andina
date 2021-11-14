@@ -19,7 +19,7 @@ import { GeoReferenceService } from '@modules/insured-registration/services';
 import { legalAgeDate, oldAgeDate } from '@utils';
 import { isWithinInterval } from 'date-fns';
 import { PhoneValidators } from 'ngx-phone-validators';
-import { EmailValidators, UniversalValidators } from 'ngx-validators';
+import { UniversalValidators } from 'ngx-validators';
 import { Observable, of, Subscription } from 'rxjs';
 
 @Component({
@@ -156,7 +156,7 @@ export class PersonalDataComponent implements OnInit, OnDestroy {
         ],
       ],
       birthDate: [this.LEGAL_AGE_DATE],
-      email: [null, [EmailValidators.simple]],
+      email: [null, [Validators.email]],
       cellphoneNumber: [null, [PhoneValidators.isPhoneNumber('AR')]],
       phoneNumber: [null, [PhoneValidators.isPhoneNumber('AR')]],
       province: [null, [Validators.required]],

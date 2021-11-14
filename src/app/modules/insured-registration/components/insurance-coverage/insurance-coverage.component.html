@@ -18,7 +18,12 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of basicTable.data">
+    <tr
+      *ngFor="
+        let data of basicTable.data | orderBy: ['-puntaje'];
+        trackBy: trackById
+      "
+    >
       <td>{{ data.costo | currency }}</td>
       <td>{{ data.producto }}</td>
       <td>{{ data.texto }}</td>

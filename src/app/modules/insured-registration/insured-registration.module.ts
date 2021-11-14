@@ -1,7 +1,5 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NgZorroModule } from '@shared/nz-zorro.module';
+import { SharedModule } from '@shared/shared.module';
 import { InsuranceCoverageComponent } from './components/insurance-coverage/insurance-coverage.component';
 import { PersonalDataComponent } from './components/personal-data/personal-data.component';
 import { VehicleDataComponent } from './components/vehicle-data/vehicle-data.component';
@@ -15,12 +13,7 @@ const COMPONENTS: any[] = [
   InsuranceCoverageComponent,
 ];
 
-const MODULES: any[] = [
-  CommonModule,
-  InsuredRegistrationRoutingModule,
-  ReactiveFormsModule,
-  NgZorroModule,
-];
+const MODULES: any[] = [InsuredRegistrationRoutingModule, SharedModule];
 
 @NgModule({
   declarations: [...COMPONENTS],

@@ -35,6 +35,18 @@ export class InsuranceCoverageComponent implements OnInit {
     this.loadData();
   }
 
+  /**
+   * Track ngFor to improve performance
+   *
+   * @param {number} _
+   * @param {InsuranceCoverage} coverage
+   * @return {*}
+   * @memberof InsuranceCoverageComponent
+   */
+  trackById(_: number, coverage: InsuranceCoverage) {
+    return coverage.numero;
+  }
+
   private async loadData() {
     this.coverage = await this.insuranceCoverageService.loadCoverage(
       this.insuredRegistration

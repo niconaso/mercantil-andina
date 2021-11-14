@@ -38,6 +38,12 @@ export class WizardComponent {
     return this.insuredRegistration.vehicleInformation;
   }
 
+  /**
+   * Update the Registration Information with the Personal Information
+   *
+   * @param {PersonalInformation} personalInformation
+   * @memberof WizardComponent
+   */
   onPersonalDataLoaded(personalInformation: PersonalInformation) {
     this.insuredRegistration = {
       ...this.insuredRegistration,
@@ -47,6 +53,12 @@ export class WizardComponent {
     this.currentStep++;
   }
 
+  /**
+   * Update the Registration Information with the VehicleInformation
+   *
+   * @param {VehicleInformation} vehicleInformation
+   * @memberof WizardComponent
+   */
   onVehicleDataLoaded(vehicleInformation: VehicleInformation) {
     this.insuredRegistration = {
       ...this.insuredRegistration,

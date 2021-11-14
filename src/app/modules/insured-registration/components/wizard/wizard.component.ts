@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   InsuranceCoverage,
   InsuredRegistration,
   PersonalInformation,
   VehicleInformation,
 } from '@modules/insured-registration/models';
+import { InsuranceService } from '@modules/insured-registration/services';
 
 @Component({
   selector: 'app-wizard',
@@ -28,6 +30,18 @@ export class WizardComponent {
    */
   insuredRegistration!: InsuredRegistration;
 
+  /**
+   * Creates an instance of WizardComponent.
+   * @param {InsuranceService} insuranceService
+   * @param {ActivatedRoute} activatedRoute
+   * @param {Router} router
+   * @memberof WizardComponent
+   */
+  constructor(
+    private readonly insuranceService: InsuranceService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router
+  ) {}
   /**
    * Update the Registration Information with the Personal Information
    *
@@ -64,5 +78,23 @@ export class WizardComponent {
       coverage,
     };
     this.currentStep++;
+  }
+
+  /**
+   *
+   *
+   * @memberof WizardComponent
+   */
+  async registerNewUser() {
+    try {
+      await this.insuranceService.registerNewInsuredUser(
+        this.insuredRegistration
+      );
+      this.router.navigate(['registration-success'], {
+        relativeTo: this.activatedRoute,
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 }

@@ -273,7 +273,6 @@
   </ng-container>
 
   <ng-container *ngIf="control.hasError('usernameExists')">
-    {{control.errors | json}}
     <div nz-typography nzType="warning">El nombre de usuario ya existe.</div>
   </ng-container>
 
@@ -283,7 +282,6 @@
 
   <ng-container *ngIf="control.hasError('noPhoneNumber')">
     <div nz-typography nzType="warning">
-
       Ingrese un número de teléfono válido.
     </div>
   </ng-container>

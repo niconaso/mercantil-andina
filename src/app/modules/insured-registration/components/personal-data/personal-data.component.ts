@@ -159,6 +159,7 @@ export class PersonalDataComponent implements OnInit, OnDestroy {
       email: [null, [Validators.email]],
       cellphoneNumber: [null, [PhoneValidators.isPhoneNumber('AR')]],
       phoneNumber: [null, [PhoneValidators.isPhoneNumber('AR')]],
+      // TODO: group provincy, city and address in an Address object with its own FormGroup
       province: [null, [Validators.required]],
       city: [null, [Validators.required]],
       address: [null, [Validators.required, UniversalValidators.noEmptyString]],
@@ -181,8 +182,8 @@ export class PersonalDataComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.personalDataForm
         .get('province')
-        ?.valueChanges.subscribe((provinceId: string) =>
-          this.loadCities(provinceId)
+        ?.valueChanges.subscribe((province: Province) =>
+          this.loadCities(province)
         )
     );
   }
@@ -201,15 +202,15 @@ export class PersonalDataComponent implements OnInit, OnDestroy {
    * Load the cities for the selected Province
    *
    * @private
-   * @param {string} provinceId
+   * @param {Province} province
    * @memberof PersonalDataComponent
    */
-  private loadCities(provinceId: string): void {
+  private loadCities(province: Province): void {
     this.cities$ = of([]);
     this.personalDataForm.get('city')?.reset();
 
-    if (provinceId) {
-      this.cities$ = this.geoRefService.getAllCities(provinceId);
+    if (province) {
+      this.cities$ = this.geoRefService.getAllCities(province);
     }
   }
 }

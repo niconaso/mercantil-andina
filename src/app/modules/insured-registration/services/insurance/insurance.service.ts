@@ -9,11 +9,11 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class InsuranceCoverageService {
+export class InsuranceService {
   /**
-   * Creates an instance of InsuranceCoverageService.
+   * Creates an instance of InsuranceService.
    * @param {HttpClient} http
-   * @memberof InsuranceCoverageService
+   * @memberof InsuranceService
    */
   constructor(private readonly http: HttpClient) {}
 
@@ -23,9 +23,9 @@ export class InsuranceCoverageService {
    * @param {InsuredRegistration} insuredRegistration in production
    *  I think this object should be used to determine the coverage based on the vehicle and user data
    * @return {*}  {Promise<InsuranceCoverage>}
-   * @memberof InsuranceCoverageService
+   * @memberof InsuranceService
    */
-  loadCoverage(
+  getCoverages(
     insuredRegistration: InsuredRegistration
   ): Promise<InsuranceCoverage[]> {
     const url: string = `${environment.mercantilAndina.apiMock}/coberturas`;
@@ -38,7 +38,7 @@ export class InsuranceCoverageService {
    *
    * @param {InsuredRegistration} insuredRegistration
    * @return {*}  {Promise<InsuredRegistration>}
-   * @memberof InsuranceCoverageService
+   * @memberof InsuranceService
    */
   registerNewInsuredUser(
     insuredRegistration: InsuredRegistration

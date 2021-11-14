@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { InsuredRegistration } from '@modules/insured-registration/models';
-import { InsuranceCoverageService } from '@modules/insured-registration/services';
 
 @Component({
   selector: 'app-insurance-resume',
@@ -15,13 +14,4 @@ export class InsuranceResumeComponent {
    * @memberof InsuranceResumeComponent
    */
   @Input() insuredRegistration!: InsuredRegistration;
-
-  /**
-   * Creates an instance of InsuranceResumeComponent.
-   * @param {InsuranceCoverageService} insuranceCoverageService
-   * @memberof InsuranceResumeComponent
-   */
-  constructor(
-    private readonly insuranceCoverageService: InsuranceCoverageService
-  ) {}
 }

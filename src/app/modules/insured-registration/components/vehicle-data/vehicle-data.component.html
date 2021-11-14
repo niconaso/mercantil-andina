@@ -22,7 +22,7 @@
       >
         <nz-option
           [nzLabel]="vehicleBrand.desc"
-          [nzValue]="vehicleBrand.codigo"
+          [nzValue]="vehicleBrand"
           *ngFor="let vehicleBrand of vechicleBrands$ | async"
         ></nz-option>
       </nz-select>
@@ -100,7 +100,7 @@
       >
         <nz-option
           [nzLabel]="vehicleVersion.desc"
-          [nzValue]="vehicleVersion.codigo"
+          [nzValue]="vehicleVersion"
           *ngFor="let vehicleVersion of vehicleVersions$ | async"
         ></nz-option>
       </nz-select>

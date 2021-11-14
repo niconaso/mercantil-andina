@@ -1,3 +1,5 @@
+import { VehicleBrand, VehicleModel, VehicleVersion } from '.';
+
 export interface VehicleInformation {
   /**
    * Brand code of the vehicle
@@ -5,11 +7,11 @@ export interface VehicleInformation {
    * @type {number}
    * @memberof VehicleInformation
    */
-  brand: number;
+  brand: VehicleBrand;
 
   year: number;
 
-  model: string;
+  model: VehicleModel;
 
-  version?: string;
+  version?: VehicleVersion;
 }

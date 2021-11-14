@@ -36,13 +36,13 @@ export class VechicleService {
   /**
    * Get all models of an specific brand and year
    *
-   * @param {number} brandCode
+   * @param {VehicleBrand} brand
    * @param {number} year
    * @return {*}  {Observable<VehicleModel[]>}
    * @memberof VechicleService
    */
-  getModels(brandCode: number, year: number): Observable<VehicleModel[]> {
-    const url: string = `${environment.mercantilAndina.api}/vehiculos/marcas/${brandCode}/${year}`;
+  getModels(brand: VehicleBrand, year: number): Observable<VehicleModel[]> {
+    const url: string = `${environment.mercantilAndina.api}/vehiculos/marcas/${brand.codigo}/${year}`;
 
     return this.http.get<VehicleModel[]>(url);
   }
@@ -60,17 +60,20 @@ export class VechicleService {
   }
 
   /**
-   * Return the version for the brand, year and model
+   *  Return the version for the brand, year and model
    *
+   * @param {VehicleBrand} brand
+   * @param {number} year
+   * @param {VehicleModel} model
    * @return {*}  {Observable<VehicleVersion[]>}
    * @memberof VechicleService
    */
   getVersions(
-    brandCode: number,
+    brand: VehicleBrand,
     year: number,
-    model: number
+    model: VehicleModel
   ): Observable<VehicleVersion[]> {
-    const url: string = `${environment.mercantilAndina.api}/vehiculos/marcas/${brandCode}/${year}/${model}`;
+    const url: string = `${environment.mercantilAndina.api}/vehiculos/marcas/${brand.codigo}/${year}/${model}`;
 
     return this.http.get<VehicleVersion[]>(url);
   }

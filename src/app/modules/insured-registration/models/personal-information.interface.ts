@@ -1,4 +1,5 @@
-import { Address } from './address.interface';
+import { City } from './city.interface';
+import { Province } from './province.interface';
 
 export interface PersonalInformation {
   /**
@@ -49,12 +50,28 @@ export interface PersonalInformation {
   phoneNumber?: string;
 
   /**
-   * User address
+   * Province
    *
-   * @type {Address}
+   * @type {string}
    * @memberof PersonalInformation
    */
-  address: Address;
+  province: Province;
+
+  /**
+   * City
+   *
+   * @type {string}
+   * @memberof PersonalInformation
+   */
+  city: City;
+
+  /**
+   * Address (plain text, could include number and floor)
+   *
+   * @type {string}
+   * @memberof PersonalInformation
+   */
+  address: string;
 
   /**
    * User must be between 18 and 99 years old

@@ -122,11 +122,11 @@ export class VehicleDataComponent implements OnInit, OnDestroy {
     this.vechicleModels$ = of([]);
     this.vehicleDataForm.get('model')?.reset();
 
-    const brandCode: number = this.vehicleDataForm.get('brand')?.value;
+    const brand: VehicleBrand = this.vehicleDataForm.get('brand')?.value;
     const year: number = this.vehicleDataForm.get('year')?.value;
 
-    if (brandCode && year) {
-      this.vechicleModels$ = this.vehicleService.getModels(brandCode, year);
+    if (brand && year) {
+      this.vechicleModels$ = this.vehicleService.getModels(brand, year);
     }
   }
 
@@ -136,18 +136,18 @@ export class VehicleDataComponent implements OnInit, OnDestroy {
    * @private
    * @memberof VehicleDataComponent
    */
-  private loadVersions(modelId: number): void {
+  private loadVersions(model: VehicleModel): void {
     this.vehicleVersions$ = of([]);
     this.vehicleDataForm.get('version')?.reset();
 
-    const brandCode: number = this.vehicleDataForm.get('brand')?.value;
+    const brand: VehicleBrand = this.vehicleDataForm.get('brand')?.value;
     const year: number = this.vehicleDataForm.get('year')?.value;
 
-    if (brandCode && year && modelId) {
+    if (brand && year && model) {
       this.vehicleVersions$ = this.vehicleService.getVersions(
-        brandCode,
+        brand,
         year,
-        modelId
+        model
       );
     }
   }

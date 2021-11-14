@@ -3,7 +3,7 @@ import {
   InsuranceCoverage,
   InsuredRegistration,
 } from '@modules/insured-registration/models';
-import { InsuranceCoverageService } from '@modules/insured-registration/services';
+import { InsuranceService } from '@modules/insured-registration/services';
 
 @Component({
   selector: 'app-insurance-coverage',
@@ -26,11 +26,11 @@ export class InsuranceCoverageComponent implements OnInit {
 
   /**
    * Creates an instance of InsuranceCoverageComponent.
-   * @param {InsuranceCoverageService} insuranceCoverageService
+   * @param {insuranceService} InsuranceService
    * @memberof InsuranceCoverageComponent
    */
   constructor(
-    private readonly insuranceCoverageService: InsuranceCoverageService
+    private readonly insuranceService: InsuranceService
   ) {}
 
   ngOnInit(): void {
@@ -60,7 +60,7 @@ export class InsuranceCoverageComponent implements OnInit {
   }
 
   private async loadData() {
-    this.coverage = await this.insuranceCoverageService.loadCoverage(
+    this.coverage = await this.insuranceService.getCoverages(
       this.insuredRegistration
     );
   }

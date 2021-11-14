@@ -8,10 +8,11 @@
     <tr>
       <th>Titulo</th>
       <th>Descripción</th>
-      <th>Costo</th>
+
       <th>Franquicia</th>
       <th>Puntaje</th>
       <th>Granizo</th>
+      <th>Costo</th>
       <th nzRight></th>
     </tr>
   </thead>
@@ -24,7 +25,7 @@
     >
       <td>{{ data.titulo }}</td>
       <td>{{ data.descripcion }}</td>
-      <td>{{ data.costo | currency }}</td>
+
       <td>{{ data.franquicia | currency }}</td>
       <td nzWidth="50">{{ data.puntaje }}</td>
       <td>
@@ -47,6 +48,7 @@
           </div>
         </div>
       </td>
+      <td>{{ data.costo | currency }}</td>
       <td nzRight>
         <button
           nz-button

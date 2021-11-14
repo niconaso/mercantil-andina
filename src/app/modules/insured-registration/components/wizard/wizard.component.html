@@ -1,7 +1,8 @@
 <nz-steps [nzCurrent]="currentStep" nzType="navigation">
-  <nz-step nzTitle="Datos Personales"> </nz-step>
-  <nz-step nzTitle="Datos de tu vehiculo"> </nz-step>
-  <nz-step nzTitle="Cobertura"> </nz-step>
+  <nz-step nzTitle="Datos Personales" nzIcon="user"> </nz-step>
+  <nz-step nzTitle="Datos del Vehiculo" nzIcon="car"> </nz-step>
+  <nz-step nzTitle="Cobertura" nzIcon="table"> </nz-step>
+  <nz-step nzTitle="Resumen" nzIcon="smile"> </nz-step>
 </nz-steps>
 
 <div class="steps-content">
@@ -20,6 +21,13 @@
   <ng-container *ngIf="currentStep === 2">
     <app-insurance-coverage
       [insuredRegistration]="insuredRegistration"
+      (selectedCoverage)="onSelectecCoverage($event)"
     ></app-insurance-coverage>
+  </ng-container>
+
+  <ng-container *ngIf="currentStep === 3">
+    <app-insurance-resume
+      [insuredRegistration]="insuredRegistration"
+    ></app-insurance-resume>
   </ng-container>
 </div>

@@ -1,5 +1,6 @@
-import { VehicleInformation } from '.';
+import { InsuranceCoverage } from './insurance-coverage.interface';
 import { PersonalInformation } from './personal-information.interface';
+import { VehicleInformation } from './vehicle-information.interface';
 
 export interface InsuredRegistration {
   /**
@@ -17,4 +18,12 @@ export interface InsuredRegistration {
    * @memberof InsuredRegistration
    */
   vehicleInformation: VehicleInformation;
+
+  /**
+   * Coverage the user choosed
+   *
+   * @type {InsuranceCoverage}
+   * @memberof InsuredRegistration
+   */
+  coverage: InsuranceCoverage;
 }

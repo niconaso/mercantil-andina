@@ -1,8 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   InsuranceCoverage,
   InsuredRegistration,
-  VehicleInformation,
 } from '@modules/insured-registration/models';
 import { InsuranceCoverageService } from '@modules/insured-registration/services';
 
@@ -20,6 +19,9 @@ export class InsuranceCoverageComponent implements OnInit {
    */
   @Input() insuredRegistration!: InsuredRegistration;
 
+  @Output() selectedCoverage: EventEmitter<InsuranceCoverage> =
+    new EventEmitter();
+
   coverage: InsuranceCoverage[] = [];
 
   /**
@@ -36,14 +38,24 @@ export class InsuranceCoverageComponent implements OnInit {
   }
 
   /**
+   * Emit the selected coverage
+   *
+   * @param {InsuranceCoverage} coverage
+   * @memberof InsuranceCoverageComponent
+   */
+  selectCoverage(coverage: InsuranceCoverage) {
+    this.selectedCoverage.emit(coverage);
+  }
+
+  /**
    * Track ngFor to improve performance
    *
    * @param {number} _
    * @param {InsuranceCoverage} coverage
-   * @return {*}
+   * @return {number}
    * @memberof InsuranceCoverageComponent
    */
-  trackById(_: number, coverage: InsuranceCoverage) {
+  trackById(_: number, coverage: InsuranceCoverage): number {
     return coverage.numero;
   }
 

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -19,6 +20,7 @@ const MODULES: any[] = [
   NzDatePickerModule,
   NzTableModule,
   NzIconModule,
+  NzDescriptionsModule,
 ];
 
 @NgModule({

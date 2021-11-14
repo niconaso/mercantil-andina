@@ -32,4 +32,22 @@ export class InsuranceCoverageService {
 
     return this.http.get<InsuranceCoverage[]>(url).toPromise();
   }
+
+  /**
+   * Register a new insured user with all the collected information
+   *
+   * @param {InsuredRegistration} insuredRegistration
+   * @return {*}  {Promise<InsuredRegistration>}
+   * @memberof InsuranceCoverageService
+   */
+  registerNewInsuredUser(
+    insuredRegistration: InsuredRegistration
+  ): Promise<InsuredRegistration> {
+    // Simulate backend call
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(insuredRegistration);
+      });
+    });
+  }
 }

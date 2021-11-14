@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import {
+  InsuranceCoverage,
   InsuredRegistration,
   PersonalInformation,
-  VehicleInformation
+  VehicleInformation,
 } from '@modules/insured-registration/models';
 
 @Component({
@@ -54,6 +55,14 @@ export class WizardComponent {
       vehicleInformation,
     };
 
+    this.currentStep++;
+  }
+
+  onSelectecCoverage(coverage: InsuranceCoverage) {
+    this.insuredRegistration = {
+      ...this.insuredRegistration,
+      coverage,
+    };
     this.currentStep++;
   }
 }

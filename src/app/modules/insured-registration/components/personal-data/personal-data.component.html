@@ -4,24 +4,6 @@
   (ngSubmit)="submitPersonalData(personalDataForm)"
 >
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="idNumber" nzRequired
-      >DNI</nz-form-label
-    >
-    <nz-form-control
-      nzHasFeedback
-      [nzSm]="14"
-      [nzXs]="24"
-      [nzErrorTip]="errorTpl"
-    >
-      <input
-        nz-input
-        formControlName="idNumber"
-        id="idNumber"
-        inputmode="numeric"
-      />
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired
       >Nombre</nz-form-label
     >
@@ -48,6 +30,24 @@
     </nz-form-control>
   </nz-form-item>
 
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="idNumber" nzRequired
+      >DNI</nz-form-label
+    >
+    <nz-form-control
+      nzHasFeedback
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="errorTpl"
+    >
+      <input
+        nz-input
+        formControlName="idNumber"
+        id="idNumber"
+        inputmode="numeric"
+      />
+    </nz-form-control>
+  </nz-form-item>
   <nz-form-item>
     <nz-form-label
       [nzSm]="6"

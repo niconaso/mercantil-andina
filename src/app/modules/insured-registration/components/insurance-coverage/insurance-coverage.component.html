@@ -6,15 +6,13 @@
 >
   <thead>
     <tr>
-      <th>Costo</th>
-      <th>Producto</th>
-      <th>Texto</th>
-      <th>Franquicia</th>
-      <th>Cod. Producto</th>
       <th>Titulo</th>
       <th>Descripción</th>
+      <th>Costo</th>
+      <th>Franquicia</th>
       <th>Puntaje</th>
       <th>Granizo</th>
+      <th nzRight></th>
     </tr>
   </thead>
   <tbody>
@@ -24,14 +22,11 @@
         trackBy: trackById
       "
     >
-      <td>{{ data.costo | currency }}</td>
-      <td>{{ data.producto }}</td>
-      <td>{{ data.texto }}</td>
-      <td>{{ data.franquicia }}</td>
-      <td>{{ data.codigoProducto }}</td>
       <td>{{ data.titulo }}</td>
       <td>{{ data.descripcion }}</td>
-      <td>{{ data.puntaje }}</td>
+      <td>{{ data.costo | currency }}</td>
+      <td>{{ data.franquicia | currency }}</td>
+      <td nzWidth="50">{{ data.puntaje }}</td>
       <td>
         <div [ngSwitch]="data.granizo">
           <div *ngSwitchCase="true">
@@ -51,6 +46,16 @@
             ></i>
           </div>
         </div>
+      </td>
+      <td nzRight>
+        <button
+          nz-button
+          nzType="link"
+          type="button"
+          (click)="selectCoverage(data)"
+        >
+          Seleccionar
+        </button>
       </td>
     </tr>
   </tbody>

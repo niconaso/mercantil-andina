@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {
   InsuredRegistration,
   PersonalInformation,
-  VehicleInformation,
+  VehicleInformation
 } from '@modules/insured-registration/models';
 
 @Component({
@@ -22,21 +22,10 @@ export class WizardComponent {
   /**
    * Collected data from the user and vehicle
    *
-   * @private
    * @type {InsuredRegistration}
    * @memberof WizardComponent
    */
-  private insuredRegistration!: InsuredRegistration;
-
-  /**
-   * Getter to retrieve only the vehicle information
-   *
-   * @readonly
-   * @memberof WizardComponent
-   */
-  get vehicleInformation() {
-    return this.insuredRegistration.vehicleInformation;
-  }
+  insuredRegistration!: InsuredRegistration;
 
   /**
    * Update the Registration Information with the Personal Information

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   InsuranceCoverage,
-  VehicleInformation,
+  InsuredRegistration,
 } from '@modules/insured-registration/models';
 import { environment } from 'src/environments/environment';
 
@@ -18,15 +18,15 @@ export class InsuranceCoverageService {
   constructor(private readonly http: HttpClient) {}
 
   /**
-   * Returns the coverage based on the vehicle information
+   * Returns the coverage based on collected data
    *
-   * @param {VehicleInformation} vehicleInformation in production
-   *  I think this object should be used to determine the coverage based on the vehicle data
+   * @param {InsuredRegistration} insuredRegistration in production
+   *  I think this object should be used to determine the coverage based on the vehicle and user data
    * @return {*}  {Promise<InsuranceCoverage>}
    * @memberof InsuranceCoverageService
    */
   loadCoverage(
-    vehicleInformation: VehicleInformation
+    insuredRegistration: InsuredRegistration
   ): Promise<InsuranceCoverage[]> {
     const url: string = `${environment.mercantilAndina.apiMock}/coberturas`;
 

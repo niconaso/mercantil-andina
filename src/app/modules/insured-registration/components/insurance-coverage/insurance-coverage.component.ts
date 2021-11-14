@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {
   InsuranceCoverage,
+  InsuredRegistration,
   VehicleInformation,
 } from '@modules/insured-registration/models';
 import { InsuranceCoverageService } from '@modules/insured-registration/services';
@@ -14,10 +15,10 @@ export class InsuranceCoverageComponent implements OnInit {
   /**
    * Vehicle information to calculate to coverage
    *
-   * @type {VehicleInformation}
+   * @type {InsuredRegistration}
    * @memberof InsuranceCoverageComponent
    */
-  @Input() vehicleInformation!: VehicleInformation;
+  @Input() insuredRegistration!: InsuredRegistration;
 
   coverage: InsuranceCoverage[] = [];
 
@@ -36,7 +37,7 @@ export class InsuranceCoverageComponent implements OnInit {
 
   private async loadData() {
     this.coverage = await this.insuranceCoverageService.loadCoverage(
-      this.vehicleInformation
+      this.insuredRegistration
     );
   }
 }

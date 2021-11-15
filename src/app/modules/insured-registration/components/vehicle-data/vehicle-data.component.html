@@ -1,128 +1,118 @@
-<form
-  nz-form
-  [formGroup]="vehicleDataForm"
-  (ngSubmit)="submitVehicleData(vehicleDataForm)"
->
-  <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="brand" nzRequired
-      >Marca</nz-form-label
-    >
-    <nz-form-control
-      nzHasFeedback
-      [nzSm]="14"
-      [nzXs]="24"
-      [nzErrorTip]="errorTpl"
-    >
-      <nz-select
-        nzShowSearch
-        nzAllowClear
-        nzPlaceHolder="Selecciona la marca"
-        formControlName="brand"
-        id="brand"
+<form nz-form [formGroup]="form">
+  <ng-container formGroupName="vehicleInformation">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="brand" nzRequired
+        >Marca</nz-form-label
       >
-        <nz-option
-          [nzLabel]="vehicleBrand.desc"
-          [nzValue]="vehicleBrand"
-          *ngFor="let vehicleBrand of vechicleBrands$ | async"
-        ></nz-option>
-      </nz-select>
-    </nz-form-control>
-  </nz-form-item>
+      <nz-form-control
+        nzHasFeedback
+        [nzSm]="14"
+        [nzXs]="24"
+        [nzErrorTip]="errorTpl"
+      >
+        <nz-select
+          nzShowSearch
+          nzAllowClear
+          nzPlaceHolder="Selecciona la marca"
+          formControlName="brand"
+          id="brand"
+        >
+          <nz-option
+            [nzLabel]="vehicleBrand.desc"
+            [nzValue]="vehicleBrand"
+            *ngFor="let vehicleBrand of vechicleBrands$ | async"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
 
-  <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="year" nzRequired
-      >Año</nz-form-label
-    >
-    <nz-form-control
-      nzHasFeedback
-      [nzSm]="14"
-      [nzXs]="24"
-      [nzErrorTip]="errorTpl"
-    >
-      <nz-select
-        nzShowSearch
-        nzAllowClear
-        nzPlaceHolder="Selecciona el año"
-        formControlName="year"
-        id="year"
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="year" nzRequired
+        >Año</nz-form-label
       >
-        <nz-option
-          [nzLabel]="vehicleYear"
-          [nzValue]="vehicleYear"
-          *ngFor="let vehicleYear of vehicleYears$ | async"
-        ></nz-option>
-      </nz-select>
-    </nz-form-control>
-  </nz-form-item>
+      <nz-form-control
+        nzHasFeedback
+        [nzSm]="14"
+        [nzXs]="24"
+        [nzErrorTip]="errorTpl"
+      >
+        <nz-select
+          nzShowSearch
+          nzAllowClear
+          nzPlaceHolder="Selecciona el año"
+          formControlName="year"
+          id="year"
+        >
+          <nz-option
+            [nzLabel]="vehicleYear"
+            [nzValue]="vehicleYear"
+            *ngFor="let vehicleYear of vehicleYears$ | async"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
 
-  <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="model" nzRequired
-      >Modelo</nz-form-label
-    >
-    <nz-form-control
-      nzHasFeedback
-      [nzSm]="14"
-      [nzXs]="24"
-      [nzErrorTip]="errorTpl"
-    >
-      <nz-select
-        nzShowSearch
-        nzAllowClear
-        nzPlaceHolder="Selecciona el modelo"
-        formControlName="model"
-        id="model"
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="model" nzRequired
+        >Modelo</nz-form-label
       >
-        <nz-option
-          [nzLabel]="vehicleModel"
-          [nzValue]="vehicleModel"
-          *ngFor="let vehicleModel of vechicleModels$ | async"
-        ></nz-option>
-      </nz-select>
-    </nz-form-control>
-  </nz-form-item>
+      <nz-form-control
+        nzHasFeedback
+        [nzSm]="14"
+        [nzXs]="24"
+        [nzErrorTip]="errorTpl"
+      >
+        <nz-select
+          nzShowSearch
+          nzAllowClear
+          nzPlaceHolder="Selecciona el modelo"
+          formControlName="model"
+          id="model"
+        >
+          <nz-option
+            [nzLabel]="vehicleModel"
+            [nzValue]="vehicleModel"
+            *ngFor="let vehicleModel of vechicleModels$ | async"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
 
-  <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="version" nzRequired
-      >Versión</nz-form-label
-    >
-    <nz-form-control
-      nzHasFeedback
-      [nzSm]="14"
-      [nzXs]="24"
-      [nzErrorTip]="errorTpl"
-    >
-      <nz-select
-        nzShowSearch
-        nzAllowClear
-        nzPlaceHolder="Selecciona la versión"
-        formControlName="version"
-        id="version"
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="version" nzRequired
+        >Versión</nz-form-label
       >
-        <nz-option
-          [nzLabel]="vehicleVersion.desc"
-          [nzValue]="vehicleVersion"
-          *ngFor="let vehicleVersion of vehicleVersions$ | async"
-        ></nz-option>
-      </nz-select>
-    </nz-form-control>
-  </nz-form-item>
+      <nz-form-control
+        nzHasFeedback
+        [nzSm]="14"
+        [nzXs]="24"
+        [nzErrorTip]="errorTpl"
+      >
+        <nz-select
+          nzShowSearch
+          nzAllowClear
+          nzPlaceHolder="Selecciona la versión"
+          formControlName="version"
+          id="version"
+        >
+          <nz-option
+            [nzLabel]="vehicleVersion.desc"
+            [nzValue]="vehicleVersion"
+            *ngFor="let vehicleVersion of vehicleVersions$ | async"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
 
-  <nz-form-item nz-row>
-    <nz-form-control
-      nz-col
-      [nzXs]="{ span: 14, offset: 0 }"
-      [nzSm]="{ span: 14, offset: 6 }"
-    >
-      <button
-        nz-button
-        nzType="primary"
-        type="submit"
-        [disabled]="vehicleDataForm.invalid"
+    <nz-form-item nz-row>
+      <nz-form-control
+        nz-col
+        [nzXs]="{ span: 14, offset: 0 }"
+        [nzSm]="{ span: 14, offset: 6 }"
       >
-        Cotizar
-      </button>
-    </nz-form-control>
-  </nz-form-item>
+      </nz-form-control>
+    </nz-form-item>
+  </ng-container>
 </form>
 
 <ng-template #errorTpl let-control>

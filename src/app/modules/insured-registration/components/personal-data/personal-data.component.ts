@@ -1,20 +1,15 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  Component,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+  FormBuilder,
+  FormGroup,
+  FormGroupDirective,
+  Validators,
+} from '@angular/forms';
 import {
   PasswordValidatorService,
   UsernameValidatorService,
 } from '@core/validators';
-import {
-  City,
-  PersonalInformation,
-  Province,
-} from '@modules/insured-registration/models';
+import { City, Province } from '@modules/insured-registration/models';
 import { GeoReferenceService } from '@modules/insured-registration/services';
 import { legalAgeDate, oldAgeDate } from '@utils';
 import { isWithinInterval } from 'date-fns';
@@ -28,16 +23,7 @@ import { Observable, of, Subscription } from 'rxjs';
   styleUrls: ['./personal-data.component.scss'],
 })
 export class PersonalDataComponent implements OnInit, OnDestroy {
-  @Output() personalData: EventEmitter<PersonalInformation> =
-    new EventEmitter();
-
-  /**
-   * Personal information form
-   *
-   * @type {FormGroup}
-   * @memberof PersonalDataComponent
-   */
-  personalDataForm!: FormGroup;
+  form: FormGroup = this.rootFormGroup.control;
 
   /**
    * List of Argentina provinces
@@ -74,12 +60,32 @@ export class PersonalDataComponent implements OnInit, OnDestroy {
    */
   private subscription: Subscription = new Subscription();
 
+  /**
+   * Creates an instance of PersonalDataComponent.
+   * @param {FormBuilder} fb
+   * @param {GeoReferenceService} geoRefService
+   * @param {UsernameValidatorService} usernameValidatorService
+   * @param {PasswordValidatorService} passwordValidatorService
+   * @param {FormGroupDirective} rootFormGroup
+   * @memberof PersonalDataComponent
+   */
   constructor(
     private readonly fb: FormBuilder,
     private readonly geoRefService: GeoReferenceService,
     private readonly usernameValidatorService: UsernameValidatorService,
-    private readonly passwordValidatorService: PasswordValidatorService
+    private readonly passwordValidatorService: PasswordValidatorService,
+    private rootFormGroup: FormGroupDirective
   ) {}
+
+  /**
+   * Getter to access to child form of the parent form
+   *
+   * @readonly
+   * @memberof PersonalDataComponent
+   */
+  get personalDataForm() {
+    return this.form.get('personalInformation') as FormGroup;
+  }
 
   /**
    * The birthdate must be between 18 and 99 years old
@@ -95,7 +101,7 @@ export class PersonalDataComponent implements OnInit, OnDestroy {
     });
   };
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.setFormValidations();
     this.loadData();
   }
@@ -105,27 +111,13 @@ export class PersonalDataComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Persist personal info and continue to the next step
-   *
-   * @param {FormGroup} form
-   * @memberof PersonalDataComponent
-   */
-  submitPersonalData(form: FormGroup) {
-    if (form.valid) {
-      const personalInformation = form.value as PersonalInformation;
-
-      this.personalData.emit(personalInformation);
-    }
-  }
-
-  /**
    * Set the validations of the Personal info form
    *
    * @private
    * @memberof PersonalDataComponent
    */
   private setFormValidations() {
-    this.personalDataForm = this.fb.group({
+    const personalDataForm: FormGroup = this.fb.group({
       idNumber: [
         null,
         [
@@ -178,6 +170,8 @@ export class PersonalDataComponent implements OnInit, OnDestroy {
         [this.passwordValidatorService.passwordStrengthValidator()],
       ],
     });
+
+    this.form.addControl('personalInformation', personalDataForm);
 
     this.subscription.add(
       this.personalDataForm

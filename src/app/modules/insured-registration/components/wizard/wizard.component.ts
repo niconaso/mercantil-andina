@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   InsuranceCoverage,
@@ -14,6 +15,7 @@ import { InsuranceService } from '@modules/insured-registration/services';
   styleUrls: ['./wizard.component.scss'],
 })
 export class WizardComponent {
+  wizardForm: FormGroup = new FormGroup({});
   /**
    * Current wizard step
    *
@@ -42,13 +44,24 @@ export class WizardComponent {
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router
   ) {}
+
+  get personalInformationForm(): FormGroup {
+    return this.wizardForm.get('personalInformation') as FormGroup;
+  }
+
+  get vehicleInformationForm(): FormGroup {
+    return this.wizardForm.get('vehicleInformation') as FormGroup;
+  }
+
   /**
    * Update the Registration Information with the Personal Information
    *
-   * @param {PersonalInformation} personalInformation
    * @memberof WizardComponent
    */
-  onPersonalDataLoaded(personalInformation: PersonalInformation) {
+  personalInformationLoaded() {
+    const personalInformation: PersonalInformation = this
+      .personalInformationForm?.value as PersonalInformation;
+
     this.insuredRegistration = {
       ...this.insuredRegistration,
       personalInformation,
@@ -58,12 +71,14 @@ export class WizardComponent {
   }
 
   /**
-   * Update the Registration Information with the VehicleInformation
+   *  Update the Registration Information with the VehicleInformation
    *
-   * @param {VehicleInformation} vehicleInformation
    * @memberof WizardComponent
    */
-  onVehicleDataLoaded(vehicleInformation: VehicleInformation) {
+  vehicleDataLoaded() {
+    const vehicleInformation: VehicleInformation = this.vehicleInformationForm
+      ?.value as VehicleInformation;
+
     this.insuredRegistration = {
       ...this.insuredRegistration,
       vehicleInformation,
@@ -78,6 +93,10 @@ export class WizardComponent {
       coverage,
     };
     this.currentStep++;
+  }
+
+  goToPrevious() {
+    this.currentStep--;
   }
 
   /**

@@ -5,7 +5,12 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormGroupDirective,
+} from '@angular/forms';
 import {
   VehicleBrand,
   VehicleModel,
@@ -22,15 +27,7 @@ import { Observable, of, Subscription } from 'rxjs';
   styleUrls: ['./vehicle-data.component.scss'],
 })
 export class VehicleDataComponent implements OnInit, OnDestroy {
-  @Output() vehicleData: EventEmitter<VehicleInformation> = new EventEmitter();
-
-  /**
-   * Vehicle information form
-   *
-   * @type {FormGroup}
-   * @memberof VehicleDataComponent
-   */
-  vehicleDataForm!: FormGroup;
+  form: FormGroup = this.rootFormGroup.control;
 
   /**
    * Brand list to select
@@ -73,10 +70,28 @@ export class VehicleDataComponent implements OnInit, OnDestroy {
    */
   private subscription: Subscription = new Subscription();
 
+  /**
+   * Creates an instance of VehicleDataComponent.
+   * @param {FormBuilder} fb
+   * @param {VechicleService} vehicleService
+   * @param {FormGroupDirective} rootFormGroup
+   * @memberof VehicleDataComponent
+   */
   constructor(
     private readonly fb: FormBuilder,
-    private readonly vehicleService: VechicleService
+    private readonly vehicleService: VechicleService,
+    private rootFormGroup: FormGroupDirective
   ) {}
+
+  /**
+   * Getter to access to child form of the parent form
+   *
+   * @readonly
+   * @memberof VehicleDataComponent
+   */
+  get vehicleDataForm() {
+    return this.form.get('vehicleInformation') as FormGroup;
+  }
 
   ngOnInit(): void {
     this.setFormValidations();
@@ -85,20 +100,6 @@ export class VehicleDataComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-  }
-
-  /**
-   * Persist vehicle info and continue to the next step
-   *
-   * @param {FormGroup} form
-   * @memberof VehicleDataComponent
-   */
-  submitVehicleData(form: FormGroup) {
-    if (form.valid) {
-      const vehicleInformation = form.value as VehicleInformation;
-
-      this.vehicleData.emit(vehicleInformation);
-    }
   }
 
   /**
@@ -159,12 +160,14 @@ export class VehicleDataComponent implements OnInit, OnDestroy {
    * @memberof VehicleDataComponent
    */
   private setFormValidations() {
-    this.vehicleDataForm = this.fb.group({
+    const vehicleDataForm: FormGroup = this.fb.group({
       brand: [null, [Validators.required]],
       year: [null, [Validators.required]],
       model: [null, [Validators.required]],
       version: [null, [Validators.required]],
     });
+
+    this.form.addControl('vehicleInformation', vehicleDataForm);
 
     this.subscription.add(
       this.vehicleDataForm
@@ -184,14 +187,5 @@ export class VehicleDataComponent implements OnInit, OnDestroy {
           this.loadVersions(modelId)
         )
     );
-  }
-
-  private showFormErrors(form: FormGroup) {
-    Object.values(form.controls).forEach((control) => {
-      if (control.invalid) {
-        control.markAsDirty();
-        control.updateValueAndValidity({ onlySelf: true });
-      }
-    });
   }
 }

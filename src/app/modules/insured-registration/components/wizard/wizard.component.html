@@ -6,36 +6,62 @@
 </nz-steps>
 
 <div class="steps-content">
-  <ng-container *ngIf="currentStep === 0">
-    <app-personal-data
-      (personalData)="onPersonalDataLoaded($event)"
-    ></app-personal-data>
-  </ng-container>
-
-  <ng-container *ngIf="currentStep === 1">
-    <app-vehicle-data
-      (vehicleData)="onVehicleDataLoaded($event)"
-    ></app-vehicle-data>
-  </ng-container>
-
-  <ng-container *ngIf="currentStep === 2">
-    <app-insurance-coverage
-      [insuredRegistration]="insuredRegistration"
-      (selectedCoverage)="onSelectecCoverage($event)"
-    ></app-insurance-coverage>
-  </ng-container>
-
-  <ng-container *ngIf="currentStep === 3">
-    <app-insurance-resume
-      [insuredRegistration]="insuredRegistration"
-    ></app-insurance-resume>
-
-    <div nz-row nzJustify="center" class="register-button">
-      <div nz-col>
-        <button nz-button nzType="primary" (click)="registerNewUser()">
-          Registarme
-        </button>
+  <form [formGroup]="wizardForm">
+    <ng-container *ngIf="currentStep === 0">
+      <app-personal-data></app-personal-data>
+      <div nz-row nclass="form-buttons">
+        <div nz-col>
+          <button
+            type="button"
+            nz-button
+            nzType="primary"
+            [disabled]="personalInformationForm?.invalid"
+            (click)="personalInformationLoaded()"
+          >
+            Siguiente
+          </button>
+        </div>
       </div>
-    </div>
-  </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="currentStep === 1">
+      <app-vehicle-data></app-vehicle-data>
+      <button type="button" nz-button nzType="default" (click)="goToPrevious()">
+        Anterior
+      </button>
+      <button
+        nz-button
+        nzType="primary"
+        type="button"
+        [disabled]="vehicleInformationForm?.invalid"
+        (click)="vehicleDataLoaded()"
+      >
+        Cotizar
+      </button>
+    </ng-container>
+
+    <ng-container *ngIf="currentStep === 2">
+      <app-insurance-coverage
+        [insuredRegistration]="insuredRegistration"
+        (selectedCoverage)="onSelectecCoverage($event)"
+      ></app-insurance-coverage>
+      <button type="button" nz-button nzType="default" (click)="goToPrevious()">
+        Anterior
+      </button>
+    </ng-container>
+
+    <ng-container *ngIf="currentStep === 3">
+      <app-insurance-resume
+        [insuredRegistration]="insuredRegistration"
+      ></app-insurance-resume>
+
+      <div nz-row nzJustify="center" class="register-button">
+        <div nz-col>
+          <button nz-button nzType="primary" (click)="registerNewUser()">
+            Registarme
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </form>
 </div>

@@ -1,27 +1,45 @@
-# MercantilAndina
+# Mercantil Andina
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.4.
+Este proyecto consiste en el challenge técnico de Mercantil Andina donde la consigna era la siguiente:
 
-## Development server
+`Realizar una aplicación en Angular (6+) que contenga un componente formulario “wizard” representando el alta de un asegurado`.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Dependencias de 3ros
 
-## Code scaffolding
+A continuación se detallan las librerías de 3ros utlizadas:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- [ng-zorro-antd](https://ng.ant.design/docs/introduce/en): Libreria de componentes visuales basados en Ant Design.
+- [date-fns](https://github.com/date-fns/date-fns#readme): Libreria liviana para el manejo de fechas tanto en el calendario como en archivo de utilidades.
+- [ngx-pipes](https://github.com/danrevah/ngx-pipes#readme): Libreria de Pipes para Angular con diferentes pipes de uso común (orderBy, filterBy, ...).
+- [ngx-phone-validators](https://github.com/Nightapes/ngx-phone-validators):
+- [check-password-strength](https://github.com/deanilvincent/check-password-strength#readme): Librería que permite verificar la seguridad de una contraseña indicando su nivel de complejidad.
 
-## Build
+### Estructura de proyecto
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+La organización de carpetas y archivos elegida se basa en módulos funcionales, donde cada módulo encapsula la lógica propia de ese módulo.
 
-## Running unit tests
+A medida que el proyecto crece y es posible identificar mas módulos funcionales, es necesario reagrupar funcionalidades y componentes en común, moviendolos a las carpetas correspondientes.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Las carpetas `core` y `shared` representan funcionalidades compartidas por los diferentes modulos siendo `core` un modulo que se instancia una unica vez y el cual no debe contener componentes visuales. Y `shared` un modulo donde si van los componentes visuales y demas estructuras compartidas el resto de los módulos.
 
-## Running end-to-end tests
+## Requisitos para el desarrollo
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Instalar las siguientes dependencias
 
-## Further help
+- Node v14.17.6 (https://github.com/nvm-sh/nvm)
+- Npm v6.14.15 (https://github.com/nvm-sh/nvm)
+- Angular CLI: `npm i -g @angular/cli`
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Instalación de dependencias
+
+Dentro de la carpeta del projecto ejecutar el siguiente comando para instalar las dependencias del proyecto:
+
+`npm i`
+
+## Servidor de desarrollo.
+
+Ejecutar `ng serve` para levantar el servidor de desarrollo. En un browser navegar a `http://localhost:4200/`.
+
+## Contrucción
+
+Ejecutar `ng build` para construir el proyecto. Los artefactos del proyectos se crean dentro del directio `dist/`.
